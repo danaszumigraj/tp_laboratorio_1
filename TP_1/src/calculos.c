@@ -10,7 +10,7 @@
 
 int descuentoDebitoA(float precioA)
 {
-	int debitoA;
+	float debitoA;
 
 	debitoA = precioA - (precioA * 0.1);
 
@@ -19,7 +19,7 @@ int descuentoDebitoA(float precioA)
 
 int descuentoDebitoL(float precioL)
 {
-	int debitoL;
+	float debitoL;
 
 	debitoL = precioL - (precioL * 0.1);
 
@@ -28,7 +28,7 @@ int descuentoDebitoL(float precioL)
 
 int interesCreditoA(float precioA)
 {
-	int creditoA;
+	float creditoA;
 
 	creditoA = precioA + (precioA * 0.25);
 
@@ -37,7 +37,7 @@ int interesCreditoA(float precioA)
 
 int interesCreditoL(float precioL)
 {
-	int creditoL;
+	float creditoL;
 
 	creditoL = precioL + (precioL * 0.25);
 
@@ -46,7 +46,7 @@ int interesCreditoL(float precioL)
 
 int bitcoinA(float precioA)
 {
-	int btcA;
+	float btcA;
 
 	btcA = (precioA / 4606954.55);
 
@@ -55,16 +55,16 @@ int bitcoinA(float precioA)
 
 int bitcoinL(float precioL)
 {
-	int btcL;
+	float btcL;
 
-	btcL = (precioL / 4606954.55);
+	btcL = (precioL / 4723110.47);
 
 	return btcL;
 }
 
 int precioUnitarioA(float precioA, float km)
 {
-	int precioPorKmA;
+	float precioPorKmA;
 
 	precioPorKmA = (precioA / km);
 
@@ -73,7 +73,7 @@ int precioUnitarioA(float precioA, float km)
 
 int precioUnitarioL(float precioL, float km)
 {
-	int precioPorKmL;
+	float precioPorKmL;
 
 	precioPorKmL = (precioL / km);
 
@@ -83,8 +83,14 @@ int precioUnitarioL(float precioL, float km)
 int diferenciaAerolineas(float precioA, float precioL)
 {
 	float diferencia;
-
-	diferencia = (precioL - precioA);
+	if (precioA == 0 || precioL == 0)
+	{
+		diferencia = 0;
+	}
+	else
+	{
+		diferencia = (precioL - precioA);
+	}
 
 	return diferencia;
 }

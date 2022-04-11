@@ -9,14 +9,14 @@
 int mostrarMenu(int opcion, float km, float precioA, float precioL)
 {
 	printf("\n1. Ingresar Kilómetros: (km= %.2f)\n", km);
-				printf("\n2. Ingresar Precio de Vuelos: (Aerolíneas=%.2f, Latam=%.2f)\n", precioA, precioL);
-				printf("\n3. Calcular todos los costos:\n"
-						"\n4. Informar Resultados\n"
-						"\n5. Carga forzada de datos\n"
-						"\n6. Salir\n");
+	printf("\n2. Ingresar Precio de Vuelos: (Aerolíneas=%.2f, Latam=%.2f)\n", precioA, precioL);
+	printf("\n3. Calcular todos los costos:\n"
+			"\n4. Informar Resultados\n"
+			"\n5. Carga forzada de datos\n"
+			"\n6. Salir\n");
 
-				printf("\nIngrese una opcion: \n");
-				scanf("%d", &opcion);
+	printf("\nIngrese una opcion: \n");
+	scanf("%d", &opcion);
 
 return(opcion);
 
@@ -52,14 +52,14 @@ int mostrarCreditoL (float creditoL)
 
 int mostrarBitcoinA (float btcA)
 {
-	printf("\nc) Precio pagando con bitcoin : %.2f", btcA);
+	printf("\nc) Precio pagando con bitcoin : %f", btcA);
 
 	return 0;
 }
 
 int mostrarBitcoinL (float btcL)
 {
-	printf("\nc) Precio pagando con bitcoin : %.2f", btcL);
+	printf("\nc) Precio pagando con bitcoin : %f", btcL);
 
 	return 0;
 }

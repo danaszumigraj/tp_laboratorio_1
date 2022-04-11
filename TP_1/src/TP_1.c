@@ -58,33 +58,33 @@ int main(void)
 
 					//VALIDO QUE INGRESE Y O Z
 
-					printf("Seleccione 'y' para Aerolineas o 'z' para Latam, una a la vez");
+					printf("Seleccione 'a' para Aerolineas o 'l' para Latam, una a la vez");
 					fflush(stdin);
 					scanf("%c", &seleccionAerolinea);
-					while(seleccionAerolinea!='y' && seleccionAerolinea!='z')
+					while(seleccionAerolinea!='a' && seleccionAerolinea!='l')
 					{
-						printf("Error, seleccione 'y' para Aerolineas o 'z' para Latam, una a la vez");
+						printf("Error, seleccione 'a' para Aerolineas o 'l' para Latam, una a la vez");
 						fflush(stdin);
 						scanf("%c", &seleccionAerolinea);
 					}
 
 
-					//ANALIZO Y O Z
-					do{//VALIDO QUE ES UN PRECIO VALIDO
+					//ANALIZO AERO O LATAM
+					do{
 						switch(seleccionAerolinea)
 						{
-							case 'y':
+							case 'a':
 								printf("Ingrese el precio de vuelo: ");
 								fflush(stdin);
 								scanf("%f", &precioA);
 							break;
-							case 'z':
+							case 'l':
 								printf("Ingrese el precio de vuelo: ");
 								fflush(stdin);
 								scanf("%f", &precioL);
 							break;
 						}
-					}while(precioA < 0 || precioL<0);
+					}while(precioA < 0 || precioL<0);//VALIDO QUE PONGA UN PRECIO REAL
 
 		break;
 		//CALCULOS
@@ -100,24 +100,39 @@ int main(void)
 			diferencia = diferenciaAerolineas(precioA, precioL);
 
 		break;
-
+		//MUESTRO RESULTADOS
 		case 4:
 			printf("KMs ingresados: %.2f\n", km);
-
+			//VALIDO QUE HAYAN INGRESADO DATOS DE AERO
+			if (precioA > 0)
+			{
 			printf("\nAerolineas: \n");
 			mostrarDebitoA (debitoA);
 			mostrarCreditoA (creditoA);
 			mostrarBitcoinA (btcA);
 			mostrarPrecioUnitarioA (precioPorKmA);
+			}
+			else
+			{
+				printf("\nNo se ingresó ningun valor para Aerolineas\n");
+			}
+			//VALIDO QUE HAYAN INGRESADO DATOS DE LATAM
+			if(precioL > 0)
+			{
 			printf("\nLatam: \n");
 			mostrarDebitoL (debitoL);
 			mostrarCreditoL (creditoL);
 			mostrarBitcoinL (btcL);
 			mostrarPrecioUnitarioL (precioPorKmL);
+			}
+			else
+			{
+				printf("\nNo se ingresó ningun valor para Latam\n");
+			}
 			mostrarDiferencia(diferencia);
 
 		break;
-
+		//CARGA FORZADA, HACE TODO SOLO
 		case 5:
 			km = 7090;
 			precioA = 162965;
@@ -151,7 +166,7 @@ int main(void)
 		break;
 			}
 
-		}while(opcionIngresada!=6);
+		}while(opcionIngresada!=6 || opcionIngresada > 6);//SI PRESIONA 6 TERMINA EL PROGRAMA
 
 	printf("Vuelva pronto!!!");
 
