@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int descuentoDebitoA(float precioA)
+float descuentoDebitoA(float precioA)
 {
 	float debitoA;
 
@@ -17,7 +17,7 @@ int descuentoDebitoA(float precioA)
 	return debitoA;
 }
 
-int descuentoDebitoL(float precioL)
+float descuentoDebitoL(float precioL)
 {
 	float debitoL;
 
@@ -26,7 +26,7 @@ int descuentoDebitoL(float precioL)
 	return debitoL;
 }
 
-int interesCreditoA(float precioA)
+float interesCreditoA(float precioA)
 {
 	float creditoA;
 
@@ -35,7 +35,7 @@ int interesCreditoA(float precioA)
 	return creditoA;
 }
 
-int interesCreditoL(float precioL)
+float interesCreditoL(float precioL)
 {
 	float creditoL;
 
@@ -44,7 +44,7 @@ int interesCreditoL(float precioL)
 	return creditoL;
 }
 
-int bitcoinA(float precioA)
+float bitcoinA(float precioA)
 {
 	float btcA;
 
@@ -53,7 +53,7 @@ int bitcoinA(float precioA)
 	return btcA;
 }
 
-int bitcoinL(float precioL)
+float bitcoinL(float precioL)
 {
 	float btcL;
 
@@ -62,7 +62,7 @@ int bitcoinL(float precioL)
 	return btcL;
 }
 
-int precioUnitarioA(float precioA, float km)
+float precioUnitarioA(float precioA, float km)
 {
 	float precioPorKmA;
 
@@ -71,7 +71,7 @@ int precioUnitarioA(float precioA, float km)
 	return precioPorKmA;
 }
 
-int precioUnitarioL(float precioL, float km)
+float precioUnitarioL(float precioL, float km)
 {
 	float precioPorKmL;
 
@@ -80,7 +80,7 @@ int precioUnitarioL(float precioL, float km)
 	return precioPorKmL;
 }
 
-int diferenciaAerolineas(float precioA, float precioL)
+float diferenciaAerolineas(float precioA, float precioL)
 {
 	float diferencia;
 	if (precioA == 0 || precioL == 0)
