@@ -12,13 +12,25 @@
 #include <stdlib.h>
 
 #include "calculos.h"
+#include "menu.h"
+
 
 int opcionIngresada;
-char respuesta = 0;
 float km;
-char seleccionAerolinea = 'y';
-float precioAerolineas = 0;
-float precioLatam = 0;
+char seleccionAerolinea;
+
+float precioA;
+float precioL;
+float debitoA;
+float debitoL;
+float creditoA;
+float creditoL;
+float btcA;
+float btcL;
+float precioPorKmA;
+float precioPorKmL;
+float diferencia;
+
 
 int main(void)
 {
@@ -26,17 +38,8 @@ int main(void)
 	setbuf(stdout, NULL);
 		do{
 			//MENU
-			printf("\n1. Ingresar Kilómetros: (km=x)\n"
-					"\n2. Ingresar Precio de Vuelos: (Aerolíneas=y, Latam=z)\n"
-					"\n3. Calcular todos los costos:\n"
-					"\n4. Informar Resultados\n"
-					"\n5. Carga forzada de datos\n"
-					"\n6. Salir\n"
-					);
-			printf("\nIngrese una opcion: \n");
-			fflush(stdin);
-			scanf("%d", &opcionIngresada);
-/*****************************************************************************************************/
+			opcionIngresada = mostrarMenu(opcionIngresada, km, precioA, precioL);
+
 			//ANALIZO OPCION
 			switch(opcionIngresada)
 			{
@@ -52,66 +55,98 @@ int main(void)
 
 			//AEROLINEAS
 			case 2:
-				do{//VALIDO SI QUIERE SEGUIR INGRESANDO DATOS
 
 					//VALIDO QUE INGRESE Y O Z
 
-						printf("Seleccione 'y' para Aerolineas o 'z' para Latam, una a la vez");
+					printf("Seleccione 'y' para Aerolineas o 'z' para Latam, una a la vez");
+					fflush(stdin);
+					scanf("%c", &seleccionAerolinea);
+					while(seleccionAerolinea!='y' && seleccionAerolinea!='z')
+					{
+						printf("Error, seleccione 'y' para Aerolineas o 'z' para Latam, una a la vez");
 						fflush(stdin);
 						scanf("%c", &seleccionAerolinea);
-						while(seleccionAerolinea!='y' && seleccionAerolinea!='z')
-						{
-							printf("Error, seleccione 'y' para Aerolineas o 'z' para Latam, una a la vez");
-							fflush(stdin);
-							scanf("%c", &seleccionAerolinea);
-						}
-
-
-						//ANALIZO Y O Z
-						do{//VALIDO QUE ES UN PRECIO VALIDO
-							switch(seleccionAerolinea)
-							{
-								case 'y':
-									printf("Ingrese el precio de vuelo: ");
-									fflush(stdin);
-									scanf("%f", &precioAerolineas);
-								break;
-
-								case 'z':
-									printf("Ingrese el precio de vuelo: ");
-									fflush(stdin);
-									scanf("%f", &precioLatam);
-								break;
-							}
-						}while(precioAerolineas < 0 || precioLatam<0);
-
-
-
-					//PREGUNTO SI QUIERE INGRESAR MAS DATOS
-					printf("\nDesea ingresar mas datos?(s/n)");
-					fflush(stdin);
-					scanf("%c", &respuesta);
-					while(!(respuesta =='s' || respuesta =='n'))
-					{
-						printf("\nError, desea ingresar mas datos?(s/n)");
-						fflush(stdin);
-						scanf("%c", &respuesta);
-
 					}
 
 
-				}while(respuesta !='n');
+					//ANALIZO Y O Z
+					do{//VALIDO QUE ES UN PRECIO VALIDO
+						switch(seleccionAerolinea)
+						{
+							case 'y':
+								printf("Ingrese el precio de vuelo: ");
+								fflush(stdin);
+								scanf("%f", &precioA);
+							break;
+							case 'z':
+								printf("Ingrese el precio de vuelo: ");
+								fflush(stdin);
+								scanf("%f", &precioL);
+							break;
+						}
+					}while(precioA < 0 || precioL<0);
+
 		break;
 		//CALCULOS
 		case 3:
+			debitoA = descuentoDebitoA(precioA);
+			debitoL = descuentoDebitoL(precioL);
+			creditoA = interesCreditoA(precioA);
+			creditoL = interesCreditoL(precioL);
+			btcA = bitcoinA(precioA);
+			btcL = bitcoinL(precioL);
+			precioPorKmA = precioUnitarioA(precioA, km);
+			precioPorKmL = precioUnitarioL(precioL, km);
+			diferencia = diferenciaAerolineas(precioA, precioL);
 
 		break;
 
 		case 4:
+			printf("KMs ingresados: %.2f\n", km);
+
+			printf("\nAerolineas: \n");
+			mostrarDebitoA (debitoA);
+			mostrarCreditoA (creditoA);
+			mostrarBitcoinA (btcA);
+			mostrarPrecioUnitarioA (precioPorKmA);
+			printf("\nLatam: \n");
+			mostrarDebitoL (debitoL);
+			mostrarCreditoL (creditoL);
+			mostrarBitcoinL (btcL);
+			mostrarPrecioUnitarioL (precioPorKmL);
+			mostrarDiferencia(diferencia);
 
 		break;
 
 		case 5:
+			km = 7090;
+			precioA = 162965;
+			precioL = 159339;
+
+			debitoA = descuentoDebitoA(precioA);
+			debitoL = descuentoDebitoL(precioL);
+			creditoA = interesCreditoA(precioA);
+			creditoL = interesCreditoL(precioL);
+			btcA = bitcoinA(precioA);
+			btcL = bitcoinL(precioL);
+			precioPorKmA = precioUnitarioA(precioA, km);
+			precioPorKmL = precioUnitarioL(precioL, km);
+			diferencia = diferenciaAerolineas(precioA, precioL);
+
+			printf("KMs ingresados: %f\n", km);
+
+			printf("\nAerolineas: \n");
+			mostrarDebitoA (debitoA);
+			mostrarCreditoA (creditoA);
+			mostrarBitcoinA (btcA);
+			mostrarPrecioUnitarioA (precioPorKmA);
+			printf("\nLatam: \n");
+			mostrarDebitoL (debitoL);
+			mostrarCreditoL (creditoL);
+			mostrarBitcoinL (btcL);
+			mostrarPrecioUnitarioL (precioPorKmL);
+			mostrarDiferencia(diferencia);
+
 
 		break;
 			}
