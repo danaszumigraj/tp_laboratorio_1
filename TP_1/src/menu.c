@@ -22,58 +22,32 @@ return(opcion);
 
 }
 
-int mostrarDebitoA (float debitoA)
+int mostrarResultados(float precioA, float precioL, float debitoA, float debitoL, float creditoA, float creditoL, float btcA, float btcL, float precioPorKmA, float precioPorKmL)
 {
-	printf("a) Precio con tarjeta de débito: %.2f", debitoA);
-
-	return 0;
-}
-
-int mostrarDebitoL (float debitoL)
-{
-	printf("a) Precio con tarjeta de débito: %.2f", debitoL);
-
-	return 0;
-}
-
-int mostrarCreditoA (float creditoA)
-{
-	printf("\nb) Precio con tarjeta de crédito: %.2f", creditoA);
-
-	return 0;
-}
-
-int mostrarCreditoL (float creditoL)
-{
-	printf("\nb) Precio con tarjeta de crédito: %.2f", creditoL);
-
-	return 0;
-}
-
-int mostrarBitcoinA (float btcA)
-{
-	printf("\nc) Precio pagando con bitcoin : %f", btcA);
-
-	return 0;
-}
-
-int mostrarBitcoinL (float btcL)
-{
-	printf("\nc) Precio pagando con bitcoin : %f", btcL);
-
-	return 0;
-}
-
-int mostrarPrecioUnitarioA (float precioPorKmA)
-{
-	printf("\nd) Precio unitario: %.2f", precioPorKmA);
-
-	return 0;
-}
-
-int mostrarPrecioUnitarioL (float precioPorKmL)
-{
-	printf("\nd) Precio unitario: %.2f", precioPorKmL);
+	if (precioA > 0)
+	{
+		printf("\nAerolineas: \n");
+		printf("a) Precio con tarjeta de débito: %.2f", debitoA);
+		printf("\nb) Precio con tarjeta de crédito: %.2f", creditoA);
+		printf("\nc) Precio pagando con bitcoin : %f", btcA);
+		printf("\nd) Precio unitario: %.2f", precioPorKmA);
+	}
+	else
+	{
+		printf("\nNo se ingresó ningun valor para Aerolineas\n");
+	}
+	if(precioL > 0)
+	{
+		printf("\nLatam: \n");
+		printf("a) Precio con tarjeta de débito: %.2f", debitoL);
+		printf("\nb) Precio con tarjeta de crédito: %.2f", creditoL);
+		printf("\nc) Precio pagando con bitcoin : %f", btcL);
+		printf("\nd) Precio unitario: %.2f", precioPorKmL);
+	}
+	else
+	{
+		printf("\nNo se ingresó ningun valor para Latam\n");
+	}
 
 	return 0;
 }

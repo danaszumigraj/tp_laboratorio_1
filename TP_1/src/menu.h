@@ -12,17 +12,7 @@
 
 int mostrarMenu(int opcion, float km, float precioA, float precioL);
 
-int mostrarDebitoA (float debitoA);
-int mostrarDebitoL (float debitoL);
-
-int mostrarCreditoA (float creditoA);
-int mostrarCreditoL (float creditoL);
-
-int mostrarBitcoinA (float btcA);
-int mostrarBitcoinL (float btcL);
-
-int mostrarPrecioUnitarioA (float precioPorKmA);
-int mostrarPrecioUnitarioL (float precioPorKmL);
+int mostrarResultados(float precioA, float precioL, float debitoA, float debitoL, float creditoA, float creditoL, float btcA, float btcL, float precioPorKmA, float precioPorKmL);
 
 int mostrarDiferencia(float diferencia);
 
