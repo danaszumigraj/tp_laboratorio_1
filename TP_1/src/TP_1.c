@@ -32,52 +32,28 @@ int main(void)
 {
 	setbuf(stdout, NULL);
 		do{
-			//MENU
 			opcionIngresada = mostrarMenu(opcionIngresada, km, precioA, precioL);
-
-			//ANALIZO OPCION
 			switch(opcionIngresada)
 			{
-			//KM
 			case 1:
-				do{//VALIDO QUE ES UN NRO VALIDO DE KM
-					printf("Ingrese los kilometros recorridos: ");
-					fflush(stdin);
-					scanf("%f", &km);
-
+				do{
+					km = pedirKm(km);
 				  }while (km < 1);
 			break;
-			//AEROLINEAS
 			case 2:
-					//VALIDO QUE INGRESE Y O Z
-					printf("Seleccione 'a' para Aerolineas o 'l' para Latam, una a la vez");
-					fflush(stdin);
-					scanf("%c", &seleccionAerolinea);
-					while(seleccionAerolinea!='a' && seleccionAerolinea!='l')
-					{
-						printf("Error, seleccione 'a' para Aerolineas o 'l' para Latam, una a la vez");
-						fflush(stdin);
-						scanf("%c", &seleccionAerolinea);
-					}
-					//ANALIZO AERO O LATAM
+					seleccionAerolinea = pedirAerolinea(seleccionAerolinea);
 					do{
 						switch(seleccionAerolinea)
 						{
 							case 'a':
-								printf("Ingrese el precio de vuelo: ");
-								fflush(stdin);
-								scanf("%f", &precioA);
+								precioA = pedirPrecio(precioA);
 							break;
 							case 'l':
-								printf("Ingrese el precio de vuelo: ");
-								fflush(stdin);
-								scanf("%f", &precioL);
+								precioL = pedirPrecio(precioL);
 							break;
 						}
-					}while(precioA < 0 || precioL<0);//VALIDO QUE PONGA UN PRECIO REAL
-
+					}while(precioA < 0 || precioL<0);
 		break;
-		//CALCULOS
 		case 3:
 			debitoA = descuentoDebitoA(precioA);
 			debitoL = descuentoDebitoL(precioL);
@@ -89,13 +65,11 @@ int main(void)
 			precioPorKmL = precioUnitarioL(precioL, km);
 			diferencia = diferenciaAerolineas(precioA, precioL);
 		break;
-		//MUESTRO RESULTADOS
 		case 4:
 			printf("KMs ingresados: %.2f\n", km);
 			mostrarResultados(precioA, precioL, debitoA, debitoL, creditoA, creditoL, btcA, btcL, precioPorKmA, precioPorKmL);
 			mostrarDiferencia(diferencia);
 		break;
-		//CARGA FORZADA, HACE TODO SOLO
 		case 5:
 			km = 7090;
 			precioA = 162965;
@@ -114,8 +88,7 @@ int main(void)
 			mostrarDiferencia(diferencia);
 		break;
 			}
-		}while(opcionIngresada!=6 || opcionIngresada > 6 || opcionIngresada < 1);//SI PRESIONA 6 TERMINA EL PROGRAMA
-
+		}while(opcionIngresada!=6 || opcionIngresada > 6 || opcionIngresada < 1);
 	printf("Vuelva pronto!!!");
 	return 0;
 }

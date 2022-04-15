@@ -22,6 +22,36 @@ return(opcion);
 
 }
 
+int pedirKm(float kmIngresados)
+{
+	printf("Ingrese los kilometros recorridos: ");
+	fflush(stdin);
+	scanf("%f", &kmIngresados);
+	return(kmIngresados);
+}
+
+int pedirAerolinea(char opcionAerolinea)
+{
+	printf("Seleccione 'a' para Aerolineas o 'l' para Latam, una a la vez");
+	fflush(stdin);
+	scanf("%c", &opcionAerolinea);
+	while(opcionAerolinea!='a' && opcionAerolinea!='l')
+	{
+		printf("Error, seleccione 'a' para Aerolineas o 'l' para Latam, una a la vez");
+		fflush(stdin);
+		scanf("%c", &opcionAerolinea);
+	}
+	return(opcionAerolinea);
+}
+
+int pedirPrecio(float precioIngresado)
+{
+	printf("Ingrese el precio de vuelo: ");
+	fflush(stdin);
+	scanf("%f", &precioIngresado);
+	return(precioIngresado);
+}
+
 int mostrarResultados(float precioA, float precioL, float debitoA, float debitoL, float creditoA, float creditoL, float btcA, float btcL, float precioPorKmA, float precioPorKmL)
 {
 	if (precioA > 0)
