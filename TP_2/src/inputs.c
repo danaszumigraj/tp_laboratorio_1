@@ -6,6 +6,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 int menu(int opcion)
 {
@@ -23,15 +24,51 @@ int menu(int opcion)
 	return (opcion);
 }
 
-void obtenerInt(int* variableRecibida)
+void getInt(int* variableRecibida, char textoAMostrar [])
 {
-	scanf("%d", variableRecibida);
+	char numeroIngresado[256];
+	printf(textoAMostrar);
+	scanf("%s", numeroIngresado);
+
 	fflush(stdin);
+	while(validarInt(numeroIngresado)==-1)
+	{
+		printf(textoAMostrar);
+		scanf("%s", numeroIngresado);
+		validarInt(numeroIngresado);
+		fflush(stdin);
+	}
+
+	variableRecibida = atoi(numeroIngresado);
 }
 
-void obtenerFloar(float* variableRecibida)
+void getFloat(float* variableRecibida, char textoAMostrar[])
 {
+	printf(textoAMostrar);
 	scanf("%f", variableRecibida);
 	fflush(stdin);
 }
 
+void getArray(char arrayRecibido[], char textoAMostrar [])
+{
+	printf(textoAMostrar);
+	gets(arrayRecibido);
+	fflush(stdin);
+}
+
+/***********************************VALIDACIONES***********************************/
+
+void validarInt()
+{
+	int retorno = 0;
+
+    for (int i = 0; i < strlen(variableRecibida); i++)
+    {
+        if(!isdigit(variableRecibida[i]) ) {
+            printf("Ingrese un numero valido");
+            retorno = -1;
+        }
+
+    }
+    return retorno;
+}

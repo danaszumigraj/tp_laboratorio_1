@@ -15,11 +15,13 @@ int initPassengers(Passenger* list, int len)
 	//Hacemos un for con un indice (i), en la que, para cada posicion
 	//de la estructura, dejando todas las flags isEmpty en VACIO (en el .h hay un
 	// define que lo iguala a -1
-	for(; i < len; i++)
+	if(list!=NULL && len > 0)
 	{
-		list[i].isEmpty = VACIO;
+		for(;i < len; i++)
+		{
+			list[i].isEmpty = VACIO;
+		}
 	}
-
 	return 0;
 }
 

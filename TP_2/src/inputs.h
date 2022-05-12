@@ -9,7 +9,8 @@
 #define INPUTS_H_
 
 int menu(int opcion);
-void obtenerInt(int* variableRecibida);
-void obtenerFloar(float* variableRecibida);
+void getInt(int* variableRecibida, char textoAMostrar []);
+void getFloat(float* variableRecibida, char textoAMostrar[]);
+void getArray(char arrayRecibido[], char textoAMostrar []);
 
 #endif /* INPUTS_H_ */

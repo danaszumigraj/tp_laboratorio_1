@@ -13,6 +13,8 @@
 #include "ArrayPassenger.h"
 #include "inputs.h"
 
+#define MAXPASAJEROS 2000
+
 
 
 int main(void) {
@@ -28,8 +30,8 @@ int main(void) {
 	char flycodeAux[10];
 	int typePassengerAux;
 
-	int maxPasajeros = 2000;
-	Passenger pasajeros[maxPasajeros];
+	Passenger pasajeros[MAXPASAJEROS];
+
 	initPassengers(pasajeros, maxPasajeros);
 
 	do{
@@ -40,16 +42,12 @@ int main(void) {
 	{
 	case 1:
 		idAux++;
-		printf("Ingrese el nombre del pasajero");
-		gets(nameAux);
-		printf("Ingrese el apellido del pasajero");
-		gets(lastNameAux);
-		printf("Ingrese el precio del vuelo");
-		obtenerFloar(&priceAux);
-		printf("Ingrese el codigo de vuelo");
-		gets(flycodeAux);
-		printf("Ingrese el tipo de pasajero");
-		obtenerInt(&typePassengerAux);
+
+		getArray(nameAux, "Ingrese el nombre del pasajero");
+		getArray(lastNameAux, "Ingrese el apellido del pasajero");
+		getFloat(priceAux, "Ingrese el precio del vuelo");
+		getArray(flycodeAux, "Ingrese el codigo de vuelo");
+		getInt(typePassengerAux, "Ingrese el tipo de pasajero");
 
 		addPassenger(pasajeros, maxPasajeros, idAux, nameAux, lastNameAux, priceAux, typePassengerAux, flycodeAux);
 
