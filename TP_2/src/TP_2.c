@@ -27,8 +27,13 @@ carga de algún pasajero.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <locale.h>
 #include "ArrayPassenger.h"
 #include "inputs.h"
+#include "Herramientas.h"
+
 
 #define MAXPASAJEROS 2000
 
@@ -39,24 +44,29 @@ int main(void) {
 	setbuf(stdout, NULL);
 
 	int opcionIngresada;
-	int opcionSubMenu;
+
 
 	int idAux = 100;
-	char nameAux[51];
-	char lastNameAux[51];
-	float priceAux;
-	char flycodeAux[10];
-	int typePassengerAux;
-
-	int buscarId;
-	int posicionRecibida;
+	char name[51];
+	char lastname[51];
+	float price;
+	char flyCode[10];
+	int typePassenger;
+	int statusFlight;
 
 
+	int tipoDeBusqueda;
+	int criterioDeOrden;
+	int bandera = 0;
 
-
+	float total;
+	float promedio;
+	int contadorMasPromedio;
+	int validacionSort;
 
 	Passenger pasajeros[MAXPASAJEROS];
 	initPassengers(pasajeros, MAXPASAJEROS);
+
 	//BUCLE MENU PRINCIPAL
 	do{
 	opcionIngresada = menu(opcionIngresada);
@@ -67,69 +77,126 @@ int main(void) {
 	//ALTAS DE PASAJEROS
 	case 1:
 		idAux++;
+		utn_getName(name, "Ingrese el nombre del pasajero\n", "El nombre ingresado no es valido\n");
+		utn_getName(lastname, "Ingrese el apellido del pasajero\n", "El apellido ingresado no es valido\n");
+		utn_getFloat(&price, "Ingrese el precio del vuelo\n", "El precio ingresado no es valido\n", 1000, 9999999);
+		getString(flyCode, "Ingrese el codigo de vuelo\n");
+		utn_getNumber(&typePassenger, "Ingrese el tipo de pasajero (1- TURISTA 2- EJECUTIVO 3- VIP)\n", "El dato ingresado no es valido\n", 1, 3);
+		utn_getNumber(&statusFlight, "Ingrese el estado del vuelo (1- ACTIVO 2- CANCELADO)\n", "El estado de vuelo ingresado no es valido\n",  1, 2);
 
-		getArray(nameAux, "Ingrese el nombre del pasajero\n");
-		getArray(lastNameAux, "Ingrese el apellido del pasajero\n");
-		getFloat(&priceAux, "Ingrese el precio del vuelo\n");
-		getArray(flycodeAux, "Ingrese el codigo de vuelo\n");
-		getInt(&typePassengerAux, "Ingrese el tipo de pasajero\n");
-
-		addPassenger(pasajeros, MAXPASAJEROS, idAux, nameAux, lastNameAux, priceAux, typePassengerAux, flycodeAux);
+		if(addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode) == 0)
+		{
+			printf("\nEl pasajero fue ingresado correctamente\n");
+			bandera = 1;
+		}
+		else
+		{
+			printf("\nError, intente nuevamente\n");
+		}
 
 	break;
 	//MODIFICAR PASAJEROS
 	case 2:
-		getInt(&buscarId, "Ingrese el ID del pasajero\n");
-
-		posicionRecibida = findPassengerById(pasajeros, MAXPASAJEROS,buscarId);
-		//BUCLE SUBMENU
-		do{
-			menuModificar(opcionSubMenu);
-			scanf("%d", &opcionSubMenu);
-			fflush(stdin);
-
-			switch(opcionSubMenu)
-			{
-			case 1:
-				getArray(nameAux, "Ingrese el nuevo nombre del pasajero\n");
-			break;
-			case 2:
-				getArray(lastNameAux, "Ingrese el nuevo apellido del pasajero\n");
-			break;
-			case 3:
-				getFloat(&priceAux, "Ingrese el nuevo precio del vuelo\n");
-			break;
-			case 4:
-				getArray(flycodeAux, "Ingrese el nuevo codigo de vuelo\n");
-			break;
-			case 5:
-				getInt(&typePassengerAux, "Ingrese el nuevo tipo de pasajero\n");
-			break;
-			case 6:
-				printf("Volviendo al menu principal...\n");
-			break;
-			default:
-				printf("\nOpcion no valida.\n");
-			break;
-			}
-		}while(opcionSubMenu!=6);
-		//SE AGREGAN LOS DATOS MODIFICADOS
-		addPassenger(pasajeros, MAXPASAJEROS, posicionRecibida, nameAux, lastNameAux, priceAux, typePassengerAux, flycodeAux);
-
+		if (bandera == 0)
+		{
+			printf("\nDebe ingresar algun pasajero primero\n");
+		}
+		else
+		{
+			modifyPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+		}
 	break;
 	//ELIMINAR PASAJERO
 	case 3:
-		getInt(&buscarId, "Ingrese el ID del pasajero\n");
-
-		removePassenger(pasajeros, MAXPASAJEROS, buscarId);
+		if (bandera == 0)
+		{
+			printf("\nDebe ingresar algun pasajero primero\n");
+		}
+		else
+		{
+			removePassenger(pasajeros, MAXPASAJEROS, idAux);
+		}
 	break;
+
+
+
 	//ORDENAMIENTO DE PASAJEROS
 	case 4:
+					if(bandera == 1)
+					{
+						utn_getNumber(&tipoDeBusqueda, "\n1-Ordenar por apellido y pasajero. \n2-Ordenar por codigo de vuelo.\n", "El dato ingresado no es valido\n", 1, 2);
+						utn_getNumber(&criterioDeOrden, "\n1-Ordenar de manera ascendente. \n2-Ordenar de manera descendente.\n", "El dato ingresado no es valido\n", 1, 2);
+						total =  totalArrays(pasajeros, MAXPASAJEROS);
+						promedio = promedioArrays(pasajeros, MAXPASAJEROS, total);
+						contadorMasPromedio = contadorPromedioMayor(pasajeros, MAXPASAJEROS, promedio);
+						if(tipoDeBusqueda == 1)
+						{
+							validacionSort=sortPassengers(pasajeros, MAXPASAJEROS, criterioDeOrden);
+						}
+						else
+						{
+							validacionSort=sortPassengersByCode(pasajeros, MAXPASAJEROS, criterioDeOrden);
+						}
+						if(validacionSort == -1)
+						{
+							printf("Error, vuelva a ingresar");
+						}
 
+						printPassenger(pasajeros, MAXPASAJEROS);
+						printf("La suma de todos los precios da %f \n y el promedio es %f \n, %d pasajeros que superan ese promedio: \n", total, promedio, contadorMasPromedio);
+					}
+					else
+					{
+						printf("\nDebe ingresar algun pasajero primero\n");
+					}
 	break;
+
+	case 5:
+		idAux ++;
+		strcpy(name, "Dana");
+		strcpy(lastname, "Szumigraj");
+		price = 10000;
+		typePassenger = 1;
+		statusFlight = 1;
+		strcpy(flyCode, "ABM-408");
+		addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+
+		idAux ++;
+		strcpy(name, "Pepe");
+		strcpy(lastname, "Argento");
+		price = 60000;
+		typePassenger = 3;
+		statusFlight = 3;
+		strcpy(flyCode, "KJW-862");
+		addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+
+		idAux ++;
+		strcpy(name, "Moni");
+		strcpy(lastname, "Argento");
+		price = 40000;
+		typePassenger = 2;
+		statusFlight = 3;
+		strcpy(flyCode, "KLM-583");
+		addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+
+		idAux ++;
+		strcpy(name, "Juan");
+		strcpy(lastname, "Perez");
+		price = 20000;
+		typePassenger = 1;
+		statusFlight = 2;
+		strcpy(flyCode, "MNE-601");
+		addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+
+		bandera = 1;
+	break;
+
 	case 6:
 		printf("Vuelva pronto!!!");
 	break;
+
+
+
 	default:
 		printf("\nOpcion no valida.\n");
 	break;

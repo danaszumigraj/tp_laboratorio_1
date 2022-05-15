@@ -18,6 +18,7 @@ char lastName[51];
 float price;
 char flycode[10];
 int typePassenger; // 1 2 3 turista //
+int statusFlight;
 int isEmpty;
 }typedef Passenger;
 
@@ -44,7 +45,7 @@ int initPassengers(Passenger* list, int len);
 * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
 
 */
-int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flycode[]);
+int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, int statusFlight, char flycode[]);
 
 /** \brief find a Passenger by Id en returns the index position in array.
 *
@@ -55,7 +56,7 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 NULL pointer received or passenger not found]
 *
 */
-int findPassengerById(Passenger* list, int len,int id);
+int findPassengerById(Passenger *list, int len, int id);
 
 /** \brief Remove a Passenger by Id (put isEmpty Flag in 1)
 *
@@ -78,7 +79,17 @@ indicate UP or DOWN order
 *
 */
 int sortPassengers(Passenger* list, int len, int order);
-
+/**
+ * @brief
+ *
+ * @pre
+ * @post
+ * @param list
+ * @param len
+ * @param order
+ * @return
+ */
+int sortPassengersByCode(Passenger *list, int len, int order);
 /** \brief print the content of passengers array
 *
 * \param list Passenger*
@@ -86,7 +97,25 @@ int sortPassengers(Passenger* list, int len, int order);
 * \return int
 *
 */
-int printPassenger(Passenger* list, int length);
+int printPassenger(Passenger* list, int len);
+/**
+ * @brief
+ *
+ * @pre
+ * @post
+ * @param list
+ * @param len
+ * @param id
+ * @param name
+ * @param lastName
+ * @param price
+ * @param typePassenger
+ * @param statusFlight
+ * @param flycode
+ * @return
+ */
+int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, int statusFlight, char flycode[]);
+
 
 
 #endif /* ARRAYPASSENGER_H_ */
