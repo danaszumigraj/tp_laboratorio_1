@@ -72,7 +72,10 @@ int utn_getName(char* cadena, char* mensaje, char* mensajeError);
  * @param cadena cadena a modificar
  */
 void utn_corregirMayus(char* cadena);
-
+/**
+ * Toma una cadena y los caracteres q encuentre dentro de la mism los pasa a mayus
+ * @param cadena cadena a analizar
+ */
 void utn_caracteresAMayus(char* cadena);
 
 #endif /* UTN_H_ */

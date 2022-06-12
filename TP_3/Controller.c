@@ -168,7 +168,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 
 	if(pArrayListPassenger!=NULL)
 	{
-		utn_getNumber(&idABuscar, "Ingrese el ID del pasajero\n", "El dato ingresado no es valido\n", 1, ll_len(pArrayListPassenger) + 1);
+		utn_getNumber(&idABuscar, "Ingrese el ID del pasajero\n", "El dato ingresado no es valido\n", 1, Passenger_newId(pArrayListPassenger) - 1);
 		i = Passenger_get(pArrayListPassenger, idABuscar);
 		if(i == -1)
 		{
