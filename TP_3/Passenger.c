@@ -83,14 +83,25 @@ void Passenger_delete(Passenger* this)
 
 int Passenger_newId(LinkedList* pArrayListPassenger)
 {
-	int len = 0;
+	Passenger* unPasajero;
+
 	int id;
 
-	len = ll_len(pArrayListPassenger);
-	id = len + 1;
+	if(pArrayListPassenger!=NULL)
+	{
+		for(int i = 0; i< ll_len(pArrayListPassenger); i++)
+		{
+			unPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
+			if(unPasajero!=NULL)
+			{
+				id = unPasajero->id + 1;
+			}
+		}
+	}
 
 	return id;
 }
+
 
 int Passenger_setId(Passenger* this, int id)
 {
@@ -342,5 +353,79 @@ int Passenger_get(LinkedList* this, int id)
 	}
 	return retorno;
 }
+int Passenger_sortByApellido(void* primerPasajero, void* segundoPasajero)
+{
+	int retorno = -1;
 
+	Passenger* pPrimerPasajero;
+	Passenger* pSegundoPasajero;
+
+	char apellidoUno[TAM_NOMBRE];
+	char nombreUno[TAM_NOMBRE];
+	char apellidoDos[TAM_NOMBRE];
+	char nombreDos[TAM_NOMBRE];
+
+	if(primerPasajero != NULL && segundoPasajero!= NULL)
+	{
+		pPrimerPasajero = (Passenger*) primerPasajero;
+		pSegundoPasajero = (Passenger*) segundoPasajero;
+
+		if(Passenger_getApellido(pPrimerPasajero, apellidoUno)==0)
+		{
+			if(Passenger_getApellido(pSegundoPasajero, apellidoDos)==0)
+			{
+				retorno = strcmp(apellidoUno, apellidoDos);
+				if(retorno == 0)
+				{
+					if(Passenger_getNombre(pPrimerPasajero, nombreUno)==0)
+					{
+						if(Passenger_getNombre(pSegundoPasajero, nombreDos)==0)
+						{
+							retorno = strcmp(nombreUno, nombreDos);
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	return retorno;
+}
+
+int Passenger_sortById(void* primerPasajero, void* segundoPasajero)
+{
+	int retorno = -1;
+
+	Passenger* pPrimerPasajero;
+	Passenger* pSegundoPasajero;
+
+	int idPrimerPasajero;
+	int idSegundoPasajero;
+
+	if(primerPasajero != NULL && segundoPasajero!= NULL)
+	{
+		pPrimerPasajero = (Passenger*) primerPasajero;
+		pSegundoPasajero = (Passenger*) segundoPasajero;
+
+		if(Passenger_getId(pPrimerPasajero, &idPrimerPasajero)==0)
+		{
+			if(Passenger_getId(pSegundoPasajero, &idSegundoPasajero)==0)
+			{
+				if(idPrimerPasajero > idSegundoPasajero)
+				{
+					retorno = 1;
+				}
+				else
+				{
+					retorno = 0;
+				}
+
+
+			}
+		}
+	}
+
+	return retorno;
+}
 

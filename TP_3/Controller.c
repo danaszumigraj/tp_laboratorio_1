@@ -44,9 +44,11 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 
 		if(pFile!=NULL)
 		{
-			parser_PassengerFromBinary(pFile,pArrayListPassenger);
-			printf("\nLa lista fue cargada con exito\n");
-			retorno = 0;
+			if(parser_PassengerFromBinary(pFile,pArrayListPassenger)==0)
+			{
+				printf("\nLa lista fue cargada con exito\n");
+				retorno = 0;
+			}
 		}
 		else
 		{
@@ -89,6 +91,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 
 					if(getString(codigoVueloStr, TAM_DATO, "\nIngrese el codigo de vuelo\n", "\nEl dato ingresado no es valido\n")==0)
 					{
+						utn_caracteresAMayus(codigoVueloStr);
 						if(utn_getNumber(&tipoPasajero, "Ingrese el tipo de pasajero (1- EconomyClass 2- FirstClass 3- ExecutiveClass)\n", "El dato ingresado no es valido\n", 1, 3)==0)
 						{
 							itoa(tipoPasajero, tipoPasajeroStr, TAM_DECIMAL);
@@ -126,10 +129,12 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 								unPasajero = Passenger_newParametros(idStr, nombreStr, apellidoStr, precioStr, codigoVueloStr, tipoPasajeroStr, estadoVueloStr);
 								if(unPasajero!=NULL)
 								{
-									ll_add(pArrayListPassenger, unPasajero);
-									printf("\nEl Pasajero fue agregado correctamente\n"
-											"\nID generado: %s\n", idStr);
-									retorno = 0;
+									if(ll_add(pArrayListPassenger, unPasajero)==0)
+									{
+										printf("\nEl Pasajero fue agregado correctamente\n"
+												"\nID generado: %s\n", idStr);
+										retorno = 0;
+									}
 								}
 							}
 						}
@@ -164,7 +169,6 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 	if(pArrayListPassenger!=NULL)
 	{
 		utn_getNumber(&idABuscar, "Ingrese el ID del pasajero\n", "El dato ingresado no es valido\n", 1, ll_len(pArrayListPassenger) + 1);
-		//i = ll_indexOf(pArrayListPassenger, &idABuscar);
 		i = Passenger_get(pArrayListPassenger, idABuscar);
 		if(i == -1)
 		{
@@ -315,8 +319,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
 
 		if(pArrayListPassenger!=NULL)
 		{
-			utn_getNumber(&idABuscar, "Ingrese el ID del pasajero\n", "El dato ingresado no es valido\n", 1, ll_len(pArrayListPassenger) + 1);
-			//i = ll_indexOf(pArrayListPassenger, &idABuscar);
+			utn_getNumber(&idABuscar, "Ingrese el ID del pasajero\n", "El dato ingresado no es valido\n", 1, Passenger_newId(pArrayListPassenger) - 1);
 			i = Passenger_get(pArrayListPassenger, idABuscar);
 			if(i == -1)
 			{
@@ -376,13 +379,153 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
 }
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
-	return 0;
+	int retorno = -1;
+	int orden;
+
+	if(pArrayListPassenger!=NULL)
+	{
+		if(utn_getNumber(&orden, "\nOrdenar por apellido y nombre de forma: 1-ASCENDENTE 0-DESCENDENTE\n", "\nEl orden ingresado no es valido\n", 0, 1)==0)
+		{
+		printf("\nAguarde un segundo por favor...\n");
+		ll_sort(pArrayListPassenger, Passenger_sortByApellido, orden);
+		retorno = 0;
+		}
+
+	}
+	return retorno;
+}
+
+int controller_sortPassengerById(LinkedList* pArrayListPassenger)
+{
+	int retorno = -1;
+
+	if(pArrayListPassenger!=NULL)
+	{
+		printf("\nAguarde un segundo por favor...\n");
+		ll_sort(pArrayListPassenger, Passenger_sortById, 1);
+		retorno = 0;
+	}
+	return retorno;
 }
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger)
 {
-	return 0;
+	Passenger* unPasajero;
+	FILE* pFile;
+
+	int retorno = -1;
+
+	int id;
+	char nombre[TAM_NOMBRE];
+	char apellido[TAM_NOMBRE];
+	int precio;
+	int tipoPasajero;
+	char codigoVuelo [TAM_DATO];
+	int estadoVuelo;
+
+	char tipoPasajeroAux[TAM_DATO];
+	char estadoVueloAux[TAM_DATO];
+
+	int len;
+
+	if(pArrayListPassenger!=NULL && path!=NULL)
+	{
+		pFile = fopen(path, "w");
+		if(pFile!=NULL)
+		{
+			len = ll_len(pArrayListPassenger);
+			if(len>0)
+			{
+				fprintf(pFile, "id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo \n");
+				for(int i = 0; i<len; i++)
+				{
+					unPasajero = (Passenger*) ll_get(pArrayListPassenger,i);
+					if(unPasajero!=NULL)
+					{
+						if(Passenger_getId(unPasajero, &id)==0)
+						{
+							if(Passenger_getNombre(unPasajero, nombre) == 0)
+							{
+								if(Passenger_getApellido(unPasajero, apellido)==0)
+								{
+									if(Passenger_getPrecio(unPasajero, &precio)==0)
+									{
+										if(Passenger_getTipoPasajero(unPasajero, &tipoPasajero)==0)
+										{
+											if(Passenger_getCodigoVuelo(unPasajero, codigoVuelo)==0)
+											{
+												if(Passenger_getEstadoVuelo(unPasajero, &estadoVuelo)==0)
+												{
+													fprintf(pFile, "%d, %s, %s, %d, %s, %s, %s \n", id, nombre, apellido, precio, codigoVuelo, tipoPasajeroAux, estadoVueloAux);
+													retorno = 0;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	fclose(pFile);
+	return retorno;
 }
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 {
-	return 0;
+	FILE* pFile;
+	Passenger* unPasajero;
+
+	int retorno = -1;
+
+	if(pArrayListPassenger!=NULL && path!=NULL)
+	{
+		pFile = fopen(path, "wb");
+		for(int i = 0; i < ll_len(pArrayListPassenger); i++)
+		{
+			unPasajero = (Passenger*) ll_get(pArrayListPassenger, i);
+			fwrite(unPasajero, sizeof(Passenger), 1, pFile);
+			retorno = 0;
+		}
+		fclose(pFile);
+	}
+
+	return retorno;
+}
+
+int controller_corregirId(LinkedList* pArrayListPassenger, int contadorPasajeros)
+{
+	Passenger* unPasajero;
+
+	int retorno = -1;
+	int i;
+	int len;
+	int id;
+
+	if(pArrayListPassenger!=NULL && contadorPasajeros>0)
+	{
+		len = ll_len(pArrayListPassenger);
+		if(len>0)
+		{
+			for(i = 0; i < contadorPasajeros ; i++)
+			{
+				unPasajero = ll_get(pArrayListPassenger, i);
+				if(unPasajero!=NULL)
+				{
+					id = len - i - contadorPasajeros + 1;
+					if(Passenger_setId(unPasajero, id)==0)
+					{
+						if(ll_set(pArrayListPassenger, i, unPasajero)==0)
+						{
+							retorno = 0;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return retorno;
 }

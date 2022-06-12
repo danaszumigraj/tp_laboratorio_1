@@ -41,26 +41,23 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 {
 	Passenger* unPasajero;
-	unPasajero = Passenger_new();
 
 	int retorno = -1;
 	int cantidad;
 
 	if(pFile != NULL && pArrayListPassenger != NULL)
 	{
-		while(!feof(pFile))
+		do
 		{
+			unPasajero = Passenger_new();
 			cantidad = fread(unPasajero, sizeof(Passenger), 1, pFile);
-			printf("Leido: %d\n", cantidad);
-
-			if(cantidad == 7)
+			if(cantidad==1)
 			{
 				ll_add(pArrayListPassenger, unPasajero);
 				retorno = 0;
 			}
 
-		}
+		}while(!feof(pFile));
 	}
-
     return retorno;
 }
