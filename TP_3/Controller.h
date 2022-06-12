@@ -1,72 +1,74 @@
+#define TAM_NOMBRE 50
+#define TAM_DATO 20
+#define TAM_DECIMAL 10
+
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* ubicacion del archivo
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int 0 si esta ok y -1 si hay problema
  *
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListPassenger);
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* ubicacion del archivo
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int 0 si esta ok y -1 si hay problema
  *
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger);
 /** \brief Alta de pasajero
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int 0 si esta ok y -1 si hay problema
  *
  */
 int controller_addPassenger(LinkedList* pArrayListPassenger);
 /** \brief Modificar datos de pasajero
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int 0 si esta ok y -1 si hay problema
  *
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger);
 /** \brief Baja de pasajero
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int 0 si esta ok y -1 si hay problema
  *
  */
 int controller_removePassenger(LinkedList* pArrayListPassenger);
 /** \brief Listar pasajeros
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int 0 si esta ok y -1 si hay problema
  *
  */
 int controller_ListPassenger(LinkedList* pArrayListPassenger);
-/** \brief Ordenar pasajeros
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
- *
+/** \brief Ordenar pasajeros por apellido y si son iguales por nombre
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return retorna 0 si esta ok y -1 si hay problema
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger);
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* ubicacion del archivo
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return retorna 0 si esta ok y -1 si hay problema
  *
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListPassenger);
+/**
+ * @brief Ordena los pasajeros por ID
+ * @param pArrayListPassenger Lista de pasajeros
+ * @return retorna 0 si esta ok y -1 si hay problema
+ */
+int controller_sortPassengerById(LinkedList* pArrayListPassenger);
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
- *
+ * \param path char* ubicacion del archivo
+ * \param pArrayListPassenger LinkedList* lista de pasajeros
+ * \return int retorna 0 si esta ok y -1 si hay problema
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger);
+/**
+ * @brief corrige los ID en caso de ingresar un pasajero y luego cargar la lista desde el archivo
+ * @param pArrayListPassenger lista de pasajeros
+ * @param contadorPasajeros contador de pasajeros cargados manualmente
+ * @return retorna 0 si esta ok y -1 si hay problema
+ */
+int controller_corregirId(LinkedList* pArrayListPassenger, int contadorPasajeros);
