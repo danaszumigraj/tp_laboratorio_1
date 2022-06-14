@@ -4,8 +4,8 @@
 #include "../inc/LinkedList.h"
 
 
-//static Node* getNode(LinkedList* this, int nodeIndex);
-//static int addNode(LinkedList* this, int nodeIndex,void* pElement);
+static Node* getNode(LinkedList* this, int nodeIndex);
+static int addNode(LinkedList* this, int nodeIndex,void* pElement);
 
 /** \brief Crea un nuevo LinkedList en memoria de manera dinamica
  *
@@ -322,5 +322,4 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 
 }
-
 
