@@ -12,38 +12,6 @@
 #include "ArrayPassenger.h"
 #include "inputs.h"
 
-//MENU PPAL
-int menu(int opcion)
-{
-		printf("1. ALTAS\n");
-		printf("2. MODIFICAR\n");
-		printf("3. BAJA\n");
-		printf("4. INFORMAR\n");
-		printf("5. CARGA FORZADA\n");
-		printf("6. SALIR\n");
-
-	printf("\nIngrese una opción: \n");
-	scanf("%d", &opcion);
-
-
-	return (opcion);
-}
-//SUBMENU MODIFICAR
-int menuModificar(int opcion)
-{
-	printf("1. Modificar nombre del pasajero\n");
-	printf("2. Modificar apellido del pasajero\n");
-	printf("3. Modificar precio del vuelo\n");
-	printf("4. Modificar codigo de vuelo\n");
-	printf("5. Modificar tipo de pasajero\n");
-	printf("6. Modificar el estado de vuelo\n");
-	printf("7. SALIR\n");
-
-		printf("\nIngrese una opción: \n");
-		scanf("%d", &opcion);
-
-	return (opcion);
-}
 //OBTENER ARRAY, TIENE VALIDACION DE CARACTER
 void getString(char arrayRecibido[], char textoAMostrar [])
 {
@@ -204,6 +172,18 @@ void utn_corregirMayus(char* cadena)
 		}
 	}
 }
+
+void utn_caracteresAMayus(char* cadena)
+{
+	for(int i = 0; i < strlen(cadena); i++)
+	{
+		if(isalpha(cadena[i]))
+		{
+			cadena[i]=toupper(cadena[i]);
+		}
+	}
+}
+
 
 
 

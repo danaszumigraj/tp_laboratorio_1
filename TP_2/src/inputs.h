@@ -9,19 +9,6 @@
 #define INPUTS_H_
 
 /**
- * @brief Muestra el menu principal
- *
- * @param opcion Es la respuesta que ingresa el usuario
- * @return Retorna la respuesta del usuario (1 a 6)
- */
-int menu(int opcion);
-/**
- * @brief Muestra el submenu para hacer modificaciones
- * @param opcion Es la respuesta que ingresa el usuario
- * @return Retorna la respuesta del usuario (1 a 6)
- */
-int menuModificar(int opcion);
-/**
  * @brief Obtiene un string
  * @param arrayRecibido El string a obtener
  * @param textoAMostrar Texto que indica al usuario lo que debe ingresar
@@ -85,5 +72,10 @@ int utn_getName(char* cadena, char* mensaje, char* mensajeError);
  * @param cadena cadena a modificar
  */
 void utn_corregirMayus(char* cadena);
+/**
+ * Toma una cadena y los caracteres q encuentre dentro de la mism los pasa a mayus
+ * @param cadena cadena a analizar
+ */
+void utn_caracteresAMayus(char* cadena);
 
 #endif /* INPUTS_H_ */

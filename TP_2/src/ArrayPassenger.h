@@ -99,6 +99,13 @@ int sortPassengersByCode(Passenger *list, int len, int order);
 */
 int printPassenger(Passenger* list, int len);
 /**
+ * @brief Busca un pasajero por su ID y lo muestra en pantalla
+ * @param list es la estructura de los pasajeros
+ * @param len largo del array
+ * @param id es el id del pasajero
+ */
+void printOnePassenger(Passenger *list, int len, int id);
+/**
  * @brief
  *
  * @pre

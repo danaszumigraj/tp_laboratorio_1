@@ -61,7 +61,7 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 	}
 	return retorno;
 }
-
+//MODIFICAR PASAJEROS
 int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, int statusFlight, char flycode[])
 {
 	int retorno = -1;
@@ -77,9 +77,8 @@ int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[
 	}
 	else
 	{
-		mostrarPasajero(list, len, id);
-
 		do{
+			printOnePassenger(list, len, i);
 			respuesta = menuModificar(respuesta);
 			fflush(stdin);
 
@@ -108,6 +107,12 @@ int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[
 				}
 			break;
 			case 3:
+				getString(flycode, "\nIngrese el codigo de vuelo\n");
+				utn_caracteresAMayus(flycode);
+				strcpy(list[i].flycode, flycode);
+				printf("\nEl codigo de vuelo fue modificado correctamente\n");
+			break;
+			case 4:
 				if(utn_getFloat(&price, "\nIngrese el precio del vuelo\n", "\nEl precio ingresado no es valido\n", 1000, 9999999)==0)
 				{
 					list[i].price = price;
@@ -117,10 +122,6 @@ int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[
 				{
 					printf("\nError, intente nuevamente\n");
 				}
-			break;
-			case 4:
-				getString(flycode, "\nIngrese el codigo de vuelo\n");
-				printf("\nEl codigo de vuelo fue modificado correctamente\n");
 			break;
 			case 5:
 				if(utn_getNumber(&typePassenger, "\nIngrese el tipo de pasajero (1- TURISTA 2- EJECUTIVO 3- VIP)\n", "\nEl dato ingresado no es valido\n", 1, 3)==0)
@@ -147,7 +148,7 @@ int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[
 
 	return retorno;
 }
-//ENCONTRAR PASAJEROS, FALTA VALIDAR SI NO HAY INGRESADOS Y SI EL ID ES INCORRECTO
+//ENCONTRAR PASAJEROS
 int findPassengerById(Passenger *list, int len, int id)
 {
 	int i;
@@ -184,7 +185,7 @@ int removePassenger(Passenger* list, int len, int id)
 			}
 			else
 			{
-				mostrarPasajero(list, len, id);
+				printOnePassenger(list, len, i);
 				printf("\nEsta seguro de que quiere eliminar al pasajero correspondiente al ID %d (ingrese s/n)?\n", id);
 				scanf("%c", &respuesta);
 
@@ -204,182 +205,181 @@ int removePassenger(Passenger* list, int len, int id)
 	return retorno;
 }
 
-//ORDENAR PASAJEROS
+//ORDENAR PASAJEROS POR APELLIDO Y TIPO DE PASAJERO
 int sortPassengers(Passenger *list, int len, int order)
 {
-	int i;
-	int j;
-	int value = 0;
+	int retorno = -1;
 
 	Passenger listAux;
 
-	if(list == NULL)
+	if(list != NULL)
 	{
-		return -1;
-	}
-	for(i = 0; i < len; i++)
-	{
-		for (j = i+1; j < len; j++)
+		for(int i = 0; i < len; i++)
 		{
-			if (list[j].isEmpty != -1)
+			for (int j = i+1; j < len; j++)
 			{
-				if (order == 1)
+				if (list[j].isEmpty != -1)
 				{
-					if(list[i].typePassenger > list[j].typePassenger)
+					if (order == 1)
 					{
-						value = 1;
-					}
-					else
-					{
-						if(list[i].typePassenger == list[j].typePassenger)
+						if(list[i].typePassenger > list[j].typePassenger)
 						{
-							value = strcmp(list[j].lastName, list[i].lastName);
+							retorno = 1;
+						}
+						else
+						{
+							if(list[i].typePassenger == list[j].typePassenger)
+							{
+								retorno = strcmp(list[j].lastName, list[i].lastName);
+							}
 						}
 					}
-				}
 
-				else
-				{
-					if(list[i].typePassenger < list[j].typePassenger)
-					{
-						value = 1;
-					}
 					else
 					{
-						if(list[i].typePassenger == list[j].typePassenger)
+						if(list[i].typePassenger < list[j].typePassenger)
 						{
-							value = strcmp(list[i].lastName, list[j].lastName);
+							retorno = 1;
+						}
+						else
+						{
+							if(list[i].typePassenger == list[j].typePassenger)
+							{
+								retorno = strcmp(list[i].lastName, list[j].lastName);
+							}
 						}
 					}
-				}
 
 
-				if (value == 1)
-				{
-					value = 0;
+					if (retorno == 1)
+					{
+						retorno = 0;
 
-					listAux = list[i];
-					list[i] = list[j];
-					list[j] = listAux;
+						listAux = list[i];
+						list[i] = list[j];
+						list[j] = listAux;
 
-					j = i+1;
+						j = i+1;
+					}
 				}
 			}
 		}
 	}
-	return 0;
+	return retorno;
 }
-
+//ORDENAR PASAJEROS POR CODIGO DE VUELO Y ESTADOS ACTIVOS
 int sortPassengersByCode(Passenger *list, int len, int order)
 {
-	int i;
-	int j;
-	int value = 0;
+	int retorno = -1;
 
 	Passenger listAux;
-	if(list == NULL)
+	if(list != NULL)
 	{
-		return -1;
-	}
-	for(i = 0; i < len; i++)
-	{
-		for (j = i+1; j < len; j++)
+		for(int i = 0; i < len; i++)
 		{
-			if (list[j].isEmpty != -1)
+			for (int j = i+1; j < len; j++)
 			{
-
-				if (order == 1)
+				if (list[j].isEmpty != -1)
 				{
-					if(list[i].statusFlight > list[j].statusFlight)
+
+					if (order == 1)
 					{
-						value = 1;
-					}
-					else
-					{
-						if(list[i].statusFlight == list[j].statusFlight)
+						if(list[i].statusFlight > list[j].statusFlight)
 						{
-							value = strcmp(list[j].flycode, list[i].flycode);
+							retorno = 1;
+						}
+						else
+						{
+							if(list[i].statusFlight == list[j].statusFlight)
+							{
+								retorno = strcmp(list[j].flycode, list[i].flycode);
+							}
 						}
 					}
-				}
 
-				else
-				{
-					if(list[i].statusFlight < list[j].statusFlight)
-					{
-						value = 1;
-					}
 					else
 					{
-						if(list[i].statusFlight == list[j].statusFlight)
+						if(list[i].statusFlight < list[j].statusFlight)
 						{
-							value = strcmp(list[i].flycode, list[j].flycode);
+							retorno = 1;
+						}
+						else
+						{
+							if(list[i].statusFlight == list[j].statusFlight)
+							{
+								retorno = strcmp(list[i].flycode, list[j].flycode);
+							}
 						}
 					}
-				}
 
 
-				if (value == 1)
-				{
-					value = 0;
+					if (retorno == 1)
+					{
+						retorno = 0;
 
-					listAux = list[i];
-					list[i] = list[j];
-					list[j] = listAux;
+						listAux = list[i];
+						list[i] = list[j];
+						list[j] = listAux;
 
-					j = i+1;
+						j = i+1;
+					}
 				}
 			}
 		}
 	}
-	return 0;
+	return retorno;
 }
 
-
+//IMPRIMIR TODA LA LISTA
 int printPassenger(Passenger* list, int len)
 {
-	char tipoPasajero[20];
-	char estadoVuelo[20];
-	int i;
-	for(i=0;i<len;i++)
+	printf("\n||==================================================================================================================================================================||\n");
+	for(int i=0;i<len;i++)
 	{
-		if(list[i].isEmpty != -1)
-		{
-
-			if(list[i].typePassenger == 1)
-			{
-				strcpy(tipoPasajero, "Turista");
-			}
-			else
-			{
-				if(list[i].typePassenger == 2)
-				{
-					strcpy(tipoPasajero,"Ejecutivo");
-				}
-				else
-				{
-					strcpy(tipoPasajero,"VIP");
-				}
-			}
-
-			if(list[i].statusFlight == 1)
-			{
-				strcpy(estadoVuelo,"ACTIVO");
-			}
-			else
-			{
-
-				strcpy(estadoVuelo,"INACTIVO");
-			}
-
-			printf("\n/**********************************************************************************************************************************************/\n"
-					"\nID: %d || Nombre: %s || Apellido: %s || Cod. Vuelo: %s ||   Precio Vuelo: $%.2f ||  Clase: %s  || Estado del Vuelo: %s  \n",
-					list[i].id, list[i].name, list[i].lastName, list[i].flycode,
-					list[i].price, tipoPasajero, estadoVuelo);
-		}
+		printOnePassenger(list, len, i);
 	}
+	printf("\n||==================================================================================================================================================================||\n");
 
 	return 0;
+}
+//IMPRIMIR UN PASAJERO SOLO
+void printOnePassenger(Passenger *list, int len, int i)
+{
+	char tipoPasajero[20];
+	char estadoVuelo [20];
+
+	if(list[i].isEmpty != -1)
+	{
+	{
+
+		if (list[i].typePassenger == 1)
+		{
+			strcpy(tipoPasajero, "Turista");
+		}
+		else if(list[i].typePassenger == 2)
+		{
+			strcpy(tipoPasajero, "Ejecutivo");
+		}
+		else
+		{
+			strcpy(tipoPasajero, "VIP");
+		}
+
+		if(list[i].statusFlight == 1)
+		{
+			strcpy(estadoVuelo, "ACTIVO");
+		}
+		else if(list[i].statusFlight == 2)
+		{
+			strcpy(estadoVuelo, "CANCELADO");
+		}
+
+		printf(	"\n||ID: %-4d || Nombre: %-7s || Apellido: %-10s || Cod. Vuelo: %-9s ||   Precio Vuelo: $%-10.2f ||  Clase: %-9s  || Estado del Vuelo: %-9s  ||\n",
+				list[i].id, list[i].name, list[i].lastName, list[i].flycode,
+				list[i].price, tipoPasajero, estadoVuelo);
+	}
+}
+
 }
 
 
