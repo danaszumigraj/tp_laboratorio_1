@@ -33,45 +33,65 @@ int main()
     int flagGuardado = 0;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
+    LinkedList* listaPasajerosEliminados = ll_newLinkedList();
 
     do{
     	opcionMenuPrincipal = menuPrincipal(opcionMenuPrincipal);
+    	fflush(stdin);
         switch(opcionMenuPrincipal)
         {
+        	//CARGAR ARCHIVO TEXTO
             case 1:
-                controller_loadFromText("data.csv",listaPasajeros);
-                if(flagAltaPasajeros == 1)
+                if(controller_loadFromText("data.csv",listaPasajeros)==0)
                 {
-                	controller_corregirId(listaPasajeros, contadorPasajeros);
-                	controller_sortPassengerById(listaPasajeros);
+                	printf("\nLista cargada con exito");
+                    if(flagAltaPasajeros == 1)
+                    {
+                    	controller_corregirId(listaPasajeros, contadorPasajeros);
+                    	controller_sortPassengerById(listaPasajeros);
+                    }
+                }
+                else
+                {
+                	printf("\nHubo un error al intentar cargar la lista");
                 }
                 flagPasajeros = 1;
             break;
+            //CARGAR ARCHIVO BINARIO
             case 2:
-            	controller_loadFromBinary("data.bin",listaPasajeros);
-                if(flagAltaPasajeros == 1)
+            	if(controller_loadFromBinary("data.bin",listaPasajeros)==0)
+            	{
+            		printf("\nLista binaria cargada con exito");
+					if(flagAltaPasajeros == 1)
+					{
+						controller_corregirId(listaPasajeros, contadorPasajeros);
+						controller_sortPassengerById(listaPasajeros);
+					}
+            	}
+                else
                 {
-                	controller_corregirId(listaPasajeros, contadorPasajeros);
-                	controller_sortPassengerById(listaPasajeros);
+                	printf("\nHubo un error al intentar cargar la lista");
                 }
                 flagPasajeros = 1;
             break;
+            //AGREGAR PASAJERO
             case 3:
-            	if(controller_addPassenger(listaPasajeros)==-1)
-            	{
-            		printf("\nHubo un error al intentar agregar al pasajero\n");
-            	}
-            	else
+            	if(controller_addPassenger(listaPasajeros, listaPasajerosEliminados)==0)
             	{
             		contadorPasajeros = contadorPasajeros + 1;
             		flagAltaPasajeros = 1;
             		flagPasajeros = 1;
             	}
+            	else
+            	{
+            		printf("\nHubo un error al intentar agregar al pasajero\n");
+            	}
             break;
+            //MODIFICAR PASAJERO
             case 4:
             	if(flagPasajeros==1)
             	{
-					if(controller_editPassenger(listaPasajeros)==-1)
+					if(controller_editPassenger(listaPasajeros)!=0)
 					{
 						printf("\nNingun pasajero fue modificado\n");
 					}
@@ -81,10 +101,11 @@ int main()
             		printf("\nPor favor ingrese un pasajero antes de hacer modificaciones");
             	}
             break;
+            //BORRAR PASAJERO
             case 5:
             	if(flagPasajeros==1)
             	{
-					if(controller_removePassenger(listaPasajeros)==-1)
+					if(controller_removePassenger(listaPasajeros, listaPasajerosEliminados)!=0)
 					{
 						printf("\nNingun pasajero fue eliminado\n");
 					}
@@ -94,6 +115,7 @@ int main()
             		printf("\nPor favor ingrese un pasajero antes de hacer modificaciones");
             	}
             break;
+            //LISTAR PASAJEROS
             case 6:
             	if(flagPasajeros == 1)
             	{
@@ -104,6 +126,7 @@ int main()
             		printf("\nPor favor ingrese un pasajero antes de listar");
             	}
             break;
+            //ORDENAR PASAJEROS
             case 7:
             	if(flagPasajeros==1)
             	{
@@ -121,6 +144,7 @@ int main()
             		printf("\nPor favor ingrese un pasajero antes de ordenar\n");
             	}
             break;
+            //GUARDAR TEXTO
             case 8:
             	if(flagPasajeros ==1)
             	{
@@ -139,6 +163,7 @@ int main()
             		printf("\nPor favor ingrese un pasajero o cargue la lista antes de guardar");
             	}
             break;
+            //GUARDAR BINARIO
             case 9:
             	if(flagPasajeros ==1)
             	{
@@ -157,6 +182,7 @@ int main()
             		printf("\nPor favor ingrese un pasajero o cargue la lista antes de guardar");
             	}
             break;
+            //SALIR
             case 10:
             	if(flagGuardado == 0)
             	{

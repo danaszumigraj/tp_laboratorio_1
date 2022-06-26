@@ -10,7 +10,7 @@
 
 int menuPrincipal(int opcionIngresada)
 {
-	printf("\n-----------------Menu-----------------\n"
+	printf("\n-------------------------------------Menu-------------------------------------"
      "\n1. Cargar los datos de los pasajeros desde el archivo data.csv (modo texto)."
      "\n2. Cargar los datos de los pasajeros desde el archivo data.bin (modo binario)."
      "\n3. Alta de pasajero"
@@ -21,6 +21,7 @@ int menuPrincipal(int opcionIngresada)
      "\n8. Guardar los datos de los pasajeros en el archivo data.csv (modo texto)."
     "\n9. Guardar los datos de los pasajeros en el archivo data.bin (modo binario)."
     "\n10. Salir"
+	"\n------------------------------------------------------------------------------\n"
 	"\nIngrese una opcion\n");
 	fflush(stdin);
 	scanf("%d", &opcionIngresada);
@@ -29,7 +30,7 @@ int menuPrincipal(int opcionIngresada)
 
 int menuModificar(int opcionIngresada)
 {
-	printf("\n-----------------Modificar Pasajero-----------------\n"
+	printf("\n-------------Modificar Pasajero--------------"
 		     "\n1. Modificar NOMBRE"
 		     "\n2. Modificar APELLIDO"
 		     "\n3. Modificar PRECIO DE VUELO"
@@ -37,6 +38,7 @@ int menuModificar(int opcionIngresada)
 		     "\n5. Modificar TIPO DE PASAJERO"
 		     "\n6. Modificar ESTADO DE VUELO"
 		     "\n7. SALIR"
+			"\n---------------------------------------------\n"
 			"\nIngrese una opcion\n");
 	fflush(stdin);
 	scanf("%d", &opcionIngresada);

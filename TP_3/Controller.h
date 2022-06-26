@@ -21,7 +21,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger);
  * \return int 0 si esta ok y -1 si hay problema
  *
  */
-int controller_addPassenger(LinkedList* pArrayListPassenger);
+int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger);
 /** \brief Modificar datos de pasajero
  * \param pArrayListPassenger LinkedList* lista de pasajeros
  * \return int 0 si esta ok y -1 si hay problema
@@ -33,7 +33,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger);
  * \return int 0 si esta ok y -1 si hay problema
  *
  */
-int controller_removePassenger(LinkedList* pArrayListPassenger);
+int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger);
 /** \brief Listar pasajeros
  * \param pArrayListPassenger LinkedList* lista de pasajeros
  * \return int 0 si esta ok y -1 si hay problema

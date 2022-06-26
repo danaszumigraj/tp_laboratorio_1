@@ -17,9 +17,9 @@ typedef struct
 	char nombre[TAM_NOMBRE];
 	char apellido[TAM_NOMBRE];
 	int precio;
-	int tipoPasajero;
+	char tipoPasajero[TAM_DATO];
 	char codigoVuelo[TAM_DATO];
-	int estadoVuelo;
+	char estadoVuelo[TAM_DATO];
 
 }Passenger;
 /**
@@ -45,7 +45,7 @@ Passenger* Passenger_newParametros(char* id, char* nombre,char* apellido, char* 
  */
 void Passenger_delete(Passenger* this);
 /**
- * @brief Busca el ID mas alto dentro de los ya ingresados y devuelve el siguiente
+ * @brief Busca el ID mas alto dentro de los ya ingresados y lo devuelve
  * @param pArrayListPassenger lista de pasajeros
  * @return retorna el ID generado
  */
@@ -112,14 +112,14 @@ int Passenger_getCodigoVuelo(Passenger* this,char* codigoVuelo);
  * @param tipoPasajero tipo a guardar
  * @return retorna 0 si esta ok y -1 si hay problema
  */
-int Passenger_setTipoPasajero(Passenger* this,int tipoPasajero);
+int Passenger_setTipoPasajero(Passenger* this,char* tipoPasajero);
 /**
  * @brief obtiene un tipo a partir de un pasajero
  * @param this el pasajero
  * @param tipoPasajero variable donde se almacena el tipo a devolver
  * @return retorna 0 si esta ok y -1 si hay problema
  */
-int Passenger_getTipoPasajero(Passenger* this,int* tipoPasajero);
+int Passenger_getTipoPasajero(Passenger* this,char* tipoPasajero);
 /**
  * @brief guarda un precio dentro de un pasajero
  * @param this el pasajero
@@ -140,14 +140,14 @@ int Passenger_getPrecio(Passenger* this,int* precio);
  * @param estadoVuelo estado a guardar
  * @return retorna 0 si esta ok y -1 si hay problema
  */
-int Passenger_setEstadoVuelo(Passenger* this, int estadoVuelo);
+int Passenger_setEstadoVuelo(Passenger* this, char* estadoVuelo);
 /**
  * @brief obtiene un estado de vuelo a partir de un pasajero
  * @param this el pasajero
  * @param estadoVuelo variable donde se almacena el estado de vuelo obtenido
  * @return retorna 0 si esta ok y -1 si hay problema
  */
-int Passenger_getEstadoVuelo(Passenger* this, int* estadoVuelo);
+int Passenger_getEstadoVuelo(Passenger* this, char* estadoVuelo);
 /**
  * @brief imprime un pasajero
  * @param this el pasajero

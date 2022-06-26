@@ -25,9 +25,9 @@ Passenger* Passenger_new(void)
 		strcpy(unPasajero->nombre, " ");
 		strcpy(unPasajero->apellido, " ");
 		unPasajero->precio = 0;
-		unPasajero->tipoPasajero = 0;
+		strcpy(unPasajero->tipoPasajero, " ");
 		strcpy(unPasajero->codigoVuelo, " ");
-		unPasajero->estadoVuelo = 0;
+		strcpy(unPasajero->estadoVuelo, " ");
 	}
 
 	return unPasajero;
@@ -50,11 +50,11 @@ Passenger* Passenger_newParametros(char* id, char* nombre,char* apellido, char* 
 				{
 					if(Passenger_setPrecio(unPasajero, atoi(precio))==0)
 					{
-						if(Passenger_setTipoPasajero(unPasajero, atoi(tipoPasajero))==0)
+						if(Passenger_setTipoPasajero(unPasajero, tipoPasajero)==0)
 						{
 							if(Passenger_setCodigoVuelo(unPasajero, codigoVuelo)==0)
 							{
-								if(Passenger_setEstadoVuelo(unPasajero, atoi(estadoVuelo))==0)
+								if(Passenger_setEstadoVuelo(unPasajero, estadoVuelo)==0)
 								{
 									retorno = 0;
 								}
@@ -86,6 +86,7 @@ int Passenger_newId(LinkedList* pArrayListPassenger)
 	Passenger* unPasajero;
 
 	int id;
+	int idMasAlto = 0;
 
 	if(pArrayListPassenger!=NULL)
 	{
@@ -94,12 +95,16 @@ int Passenger_newId(LinkedList* pArrayListPassenger)
 			unPasajero = (Passenger*)ll_get(pArrayListPassenger, i);
 			if(unPasajero!=NULL)
 			{
-				id = unPasajero->id + 1;
+				id = unPasajero->id;
+				if(idMasAlto<id)
+				{
+					idMasAlto = id;
+				}
 			}
 		}
 	}
 
-	return id;
+	return idMasAlto;
 }
 
 
@@ -197,23 +202,23 @@ int Passenger_getCodigoVuelo(Passenger* this,char* codigoVuelo)
 	return retorno;
 }
 
-int Passenger_setTipoPasajero(Passenger* this,int tipoPasajero)
+int Passenger_setTipoPasajero(Passenger* this,char* tipoPasajero)
 {
 	int retorno = -1;
 	if(this!=NULL)
 	{
-		this->tipoPasajero = tipoPasajero;
+		strcpy(this->tipoPasajero, tipoPasajero);
 		retorno = 0;
 	}
 
 	return retorno;
 }
-int Passenger_getTipoPasajero(Passenger* this,int* tipoPasajero)
+int Passenger_getTipoPasajero(Passenger* this,char* tipoPasajero)
 {
 	int retorno = -1;
 	if(this!=NULL)
 	{
-		*tipoPasajero = this->tipoPasajero;
+		strcpy(tipoPasajero, this->tipoPasajero);
 		retorno = 0;
 	}
 
@@ -243,23 +248,23 @@ int Passenger_getPrecio(Passenger* this, int* precio)
 	return retorno;
 }
 
-int Passenger_setEstadoVuelo(Passenger* this, int estadoVuelo)
+int Passenger_setEstadoVuelo(Passenger* this, char* estadoVuelo)
 {
 	int retorno = -1;
 	if(this!=NULL)
 	{
-		this->estadoVuelo = estadoVuelo;
+		strcpy(this->estadoVuelo, estadoVuelo);
 		retorno = 0;
 	}
 
 	return retorno;
 }
-int Passenger_getEstadoVuelo(Passenger* this, int* estadoVuelo)
+int Passenger_getEstadoVuelo(Passenger* this, char* estadoVuelo)
 {
 	int retorno = -1;
 	if(this!=NULL && estadoVuelo!=NULL)
 	{
-		*estadoVuelo = this->estadoVuelo;
+		strcpy(estadoVuelo, this->estadoVuelo);
 		retorno = 0;
 	}
 
@@ -271,12 +276,9 @@ void Passenger_printOnePassenger(Passenger* this)
 	char nombre[TAM_NOMBRE];
 	char apellido[TAM_NOMBRE];
 	int precio;
-	int tipoPasajero;
+	char tipoPasajero[TAM_DATO];
 	char codigoVuelo [TAM_DATO];
-	int estadoVuelo;
-
-	char tipoPasajeroAux[TAM_DATO];
-	char estadoVueloAux[TAM_DATO];
+	char estadoVuelo[TAM_DATO];
 
 
 	if(this != NULL)
@@ -289,41 +291,13 @@ void Passenger_printOnePassenger(Passenger* this)
 					{
 						if(Passenger_getPrecio(this, &precio)==0)
 						{
-							if(Passenger_getTipoPasajero(this, &tipoPasajero)==0)
+							if(Passenger_getTipoPasajero(this, tipoPasajero)==0)
 							{
-								if (tipoPasajero == 1)
-												{
-													strcpy(tipoPasajeroAux, "EconomyClass");
-												}
-												else if(this->tipoPasajero == 2)
-												{
-													strcpy(tipoPasajeroAux, "FirstClass");
-												}
-													else
-													{
-														strcpy(tipoPasajeroAux, "ExecutiveClass");
-													}
 								if(Passenger_getCodigoVuelo(this, codigoVuelo)==0)
 								{
-									if(Passenger_getEstadoVuelo(this, &estadoVuelo)==0)
+									if(Passenger_getEstadoVuelo(this, estadoVuelo)==0)
 									{
-										if(estadoVuelo == 1)
-										{
-											strcpy(estadoVueloAux, "En Vuelo");
-										}
-										else if(estadoVuelo == 2)
-											{
-												strcpy(estadoVueloAux, "Demorado");
-											}
-											else if(estadoVuelo == 3)
-												{
-													strcpy(estadoVueloAux, "En Horario");
-												}
-												else
-												{
-													strcpy(estadoVueloAux, "Aterrizado");
-												}
-										printf("%d %13s %17s %15d %15s %18s %15s\n", id, nombre, apellido, precio, codigoVuelo, tipoPasajeroAux, estadoVueloAux);
+										printf("||%-4d | %13s | %17s | %15d | %15s | %18s | %15s||\n", id, nombre, apellido, precio, codigoVuelo, tipoPasajero, estadoVuelo);
 									}
 								}
 							}
