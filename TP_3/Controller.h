@@ -21,7 +21,7 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger);
  * \return int 0 si esta ok y -1 si hay problema
  *
  */
-int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger);
+int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger, LinkedList* pArrayRemovedPassenger);
 /** \brief Modificar datos de pasajero
  * \param pArrayListPassenger LinkedList* lista de pasajeros
  * \return int 0 si esta ok y -1 si hay problema
@@ -71,4 +71,4 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger);
  * @param contadorPasajeros contador de pasajeros cargados manualmente
  * @return retorna 0 si esta ok y -1 si hay problema
  */
-int controller_corregirId(LinkedList* pArrayListPassenger, int contadorPasajeros);
+int controller_corregirId(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger);

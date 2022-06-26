@@ -29,10 +29,10 @@ int main()
 
     int flagPasajeros = 0;
     int flagAltaPasajeros = 0;
-    int contadorPasajeros = 0;
     int flagGuardado = 0;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
+    LinkedList* listaCargaManual = ll_newLinkedList();
     LinkedList* listaPasajerosEliminados = ll_newLinkedList();
 
     do{
@@ -47,7 +47,7 @@ int main()
                 	printf("\nLista cargada con exito");
                     if(flagAltaPasajeros == 1)
                     {
-                    	controller_corregirId(listaPasajeros, contadorPasajeros);
+                    	controller_corregirId(listaPasajeros, listaCargaManual);
                     	controller_sortPassengerById(listaPasajeros);
                     }
                 }
@@ -64,7 +64,7 @@ int main()
             		printf("\nLista binaria cargada con exito");
 					if(flagAltaPasajeros == 1)
 					{
-						controller_corregirId(listaPasajeros, contadorPasajeros);
+						controller_corregirId(listaPasajeros, listaCargaManual);
 						controller_sortPassengerById(listaPasajeros);
 					}
             	}
@@ -76,9 +76,8 @@ int main()
             break;
             //AGREGAR PASAJERO
             case 3:
-            	if(controller_addPassenger(listaPasajeros, listaPasajerosEliminados)==0)
+            	if(controller_addPassenger(listaPasajeros, listaCargaManual, listaPasajerosEliminados)==0)
             	{
-            		contadorPasajeros = contadorPasajeros + 1;
             		flagAltaPasajeros = 1;
             		flagPasajeros = 1;
             	}

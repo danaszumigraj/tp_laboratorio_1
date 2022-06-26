@@ -58,10 +58,10 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 	}
 	return retorno;
 }
-int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger)
+int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger, LinkedList* pArrayRemovedPassenger)
 {
 	int retorno = -1;
-	if(pArrayListPassenger!=NULL)
+	if(pArrayManualPassenger!=NULL)
 	{
 		Passenger* unPasajero;
 
@@ -80,7 +80,15 @@ int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayR
 
 		int i;
 
-		id = Passenger_newId(pArrayListPassenger) + 1;
+		if(ll_isEmpty(pArrayListPassenger)==0)
+		{
+			id = Passenger_newId(pArrayListPassenger) + 1;
+		}
+		else
+		{
+			id = Passenger_newId(pArrayManualPassenger) + 1;
+		}
+
 		i = Passenger_get(pArrayRemovedPassenger, id);
 		if(i != -1)
 		{
@@ -133,11 +141,23 @@ int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayR
 								unPasajero = Passenger_newParametros(idStr, nombreStr, apellidoStr, precioStr, codigoVueloStr, tipoPasajeroStr, estadoVueloStr);
 								if(unPasajero!=NULL)
 								{
-									if(ll_add(pArrayListPassenger, unPasajero)==0)
+									if(ll_isEmpty(pArrayListPassenger)==0)
 									{
-										printf("\nEl Pasajero fue agregado correctamente"
-												"\nID generado: %s\n", idStr);
-										retorno = 0;
+										if(ll_add(pArrayListPassenger, unPasajero)==0)
+										{
+											printf("\nEl Pasajero fue agregado correctamente"
+													"\nID generado: %s\n", idStr);
+											retorno = 0;
+										}
+									}
+									else
+									{
+										if(ll_add(pArrayManualPassenger, unPasajero)==0)
+										{
+											printf("\nEl Pasajero fue agregado correctamente"
+													"\nID generado: %s\n", idStr);
+											retorno = 0;
+										}
 									}
 								}
 							}
@@ -193,11 +213,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 					{
 						if(Passenger_setNombre(unPasajero, nombre)==0)
 						{
-						printf("\nEl nombre fue modificado con exito");
+						printf("\nEl nombre fue modificado con exito\n");
 						}
 						else
 						{
-							printf("\nHubo un error al intentar modificar el nombre");
+							printf("\nHubo un error al intentar modificar el nombre\n");
 						}
 					}
 				break;
@@ -206,11 +226,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 					{
 						if(Passenger_setApellido(unPasajero,apellido)==0)
 						{
-							printf("\nEl apellido fue modificado con exito");
+							printf("\nEl apellido fue modificado con exito\n");
 						}
 						else
 						{
-							printf("\nHubo un error al intentar modificar el apellido");
+							printf("\nHubo un error al intentar modificar el apellido\n");
 						}
 					}
 				break;
@@ -219,11 +239,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 					{
 						if(Passenger_setPrecio(unPasajero, precio)==0)
 						{
-							printf("\nEl precio fue modificado con exito");
+							printf("\nEl precio fue modificado con exito\n");
 						}
 						else
 						{
-							printf("\nHubo un error al intentar modificar el precio");
+							printf("\nHubo un error al intentar modificar el precio\n");
 						}
 					}
 				break;
@@ -233,11 +253,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 						utn_caracteresAMayus(codigoVuelo);
 						if(Passenger_setCodigoVuelo(unPasajero, codigoVuelo)==0)
 						{
-						printf("\nEl codigo de vuelo fue modificado con exito");
+						printf("\nEl codigo de vuelo fue modificado con exito\n");
 						}
 						else
 						{
-							printf("\nHubo un error al intentar modificar el codigo de vuelo");
+							printf("\nHubo un error al intentar modificar el codigo de vuelo\n");
 						}
 					}
 				break;
@@ -258,11 +278,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 						}
 						if(Passenger_setTipoPasajero(unPasajero, tipoPasajeroStr)==0)
 						{
-							printf("\nEl tipo de pasajero fue modificado con exito");
+							printf("\nEl tipo de pasajero fue modificado con exito\n");
 						}
 						else
 						{
-							printf("\nHubo un error al intentar modificar el tipo de pasajero");
+							printf("\nHubo un error al intentar modificar el tipo de pasajero\n");
 						}
 					}
 				break;
@@ -286,11 +306,11 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 						}
 						if(Passenger_setEstadoVuelo(unPasajero, estadoVueloStr)==0)
 						{
-							printf("\nEl estado de vuelo fue modificado con exito");
+							printf("\nEl estado de vuelo fue modificado con exito\n");
 						}
 						else
 						{
-							printf("\nHubo un error al intentar modificar el estado de vuelo");
+							printf("\nHubo un error al intentar modificar el estado de vuelo\n");
 						}
 					}
 				break;
@@ -494,29 +514,26 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 	return retorno;
 }
 
-int controller_corregirId(LinkedList* pArrayListPassenger, int contadorPasajeros)
+int controller_corregirId(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger)
 {
 	Passenger* unPasajero;
-
-	int retorno = -1;
-	int i;
-	int len;
 	int id;
 
-	if(pArrayListPassenger!=NULL && contadorPasajeros>0)
+	int retorno = -1;
+
+	if(pArrayListPassenger!=NULL && pArrayManualPassenger!=NULL)
 	{
-		len = ll_len(pArrayListPassenger);
-		if(len>0)
+		if(ll_len(pArrayListPassenger)>0 && ll_len(pArrayManualPassenger)>0)
 		{
-			for(i = 0; i < contadorPasajeros ; i++)
+			for(int i = 0; i < ll_len(pArrayManualPassenger) ; i++)
 			{
-				unPasajero = ll_get(pArrayListPassenger, i);
+				unPasajero = ll_pop(pArrayManualPassenger, i);
 				if(unPasajero!=NULL)
 				{
-					id = len - i - contadorPasajeros + 1;
+					id = Passenger_newId(pArrayListPassenger) + 1;
 					if(Passenger_setId(unPasajero, id)==0)
 					{
-						if(ll_set(pArrayListPassenger, i, unPasajero)==0)
+						if(ll_add(pArrayListPassenger, unPasajero)==0)
 						{
 							retorno = 0;
 						}
@@ -525,6 +542,5 @@ int controller_corregirId(LinkedList* pArrayListPassenger, int contadorPasajeros
 			}
 		}
 	}
-
 	return retorno;
 }
