@@ -42,37 +42,52 @@ int main()
         {
         	//CARGAR ARCHIVO TEXTO
             case 1:
-                if(controller_loadFromText("data.csv",listaPasajeros)==0)
-                {
-                	printf("\nLista cargada con exito");
-                    if(flagAltaPasajeros == 1)
-                    {
-                    	controller_corregirId(listaPasajeros, listaCargaManual);
-                    	controller_sortPassengerById(listaPasajeros);
-                    }
-                }
-                else
-                {
-                	printf("\nHubo un error al intentar cargar la lista");
-                }
-                flagPasajeros = 1;
+            	if(flagPasajeros==0)
+            	{
+					if(controller_loadFromText("data.csv",listaPasajeros)==0)
+					{
+						printf("\nLista cargada con exito");
+						flagPasajeros = 1;
+						if(flagAltaPasajeros == 1)
+						{
+							controller_corregirId(listaPasajeros, listaCargaManual);
+							controller_sortPassengerById(listaPasajeros);
+
+						}
+					}
+					else
+					{
+						printf("\nHubo un error al intentar cargar la lista");
+					}
+            	}
+            	else
+            	{
+            		printf("\nNo puede cargar la lista dos veces");
+            	}
             break;
             //CARGAR ARCHIVO BINARIO
             case 2:
-            	if(controller_loadFromBinary("data.bin",listaPasajeros)==0)
-            	{
-            		printf("\nLista binaria cargada con exito");
-					if(flagAltaPasajeros == 1)
+            	if(flagPasajeros==0)
+				{
+					if(controller_loadFromBinary("data.bin",listaPasajeros)==0)
 					{
-						controller_corregirId(listaPasajeros, listaCargaManual);
-						controller_sortPassengerById(listaPasajeros);
+						printf("\nLista binaria cargada con exito");
+						flagPasajeros = 1;
+						if(flagAltaPasajeros == 1)
+						{
+							controller_corregirId(listaPasajeros, listaCargaManual);
+							controller_sortPassengerById(listaPasajeros);
+						}
 					}
+					else
+					{
+						printf("\nHubo un error al intentar cargar la lista");
+					}
+				}
+            	else
+            	{
+            		printf("\nNo puede cargar la lista dos veces");
             	}
-                else
-                {
-                	printf("\nHubo un error al intentar cargar la lista");
-                }
-                flagPasajeros = 1;
             break;
             //AGREGAR PASAJERO
             case 3:
@@ -90,7 +105,7 @@ int main()
             case 4:
             	if(flagPasajeros==1)
             	{
-					if(controller_editPassenger(listaPasajeros)!=0)
+					if(controller_editPassenger(listaPasajeros, listaCargaManual)!=0)
 					{
 						printf("\nNingun pasajero fue modificado\n");
 					}
@@ -104,7 +119,7 @@ int main()
             case 5:
             	if(flagPasajeros==1)
             	{
-					if(controller_removePassenger(listaPasajeros, listaPasajerosEliminados)!=0)
+					if(controller_removePassenger(listaPasajeros, listaPasajerosEliminados, listaCargaManual)!=0)
 					{
 						printf("\nNingun pasajero fue eliminado\n");
 					}
@@ -118,7 +133,7 @@ int main()
             case 6:
             	if(flagPasajeros == 1)
             	{
-            	controller_ListPassenger(listaPasajeros);
+            	controller_ListPassenger(listaPasajeros, listaCargaManual);
             	}
             	else
             	{
@@ -129,7 +144,7 @@ int main()
             case 7:
             	if(flagPasajeros==1)
             	{
-            		if(controller_sortPassenger(listaPasajeros)==0)
+            		if(controller_sortPassenger(listaPasajeros, listaCargaManual)==0)
             		{
             			printf("\nLista ordenada con exito\n");
             		}

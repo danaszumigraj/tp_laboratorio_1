@@ -27,24 +27,24 @@ int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayM
  * \return int 0 si esta ok y -1 si hay problema
  *
  */
-int controller_editPassenger(LinkedList* pArrayListPassenger);
+int controller_editPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger);
 /** \brief Baja de pasajero
  * \param pArrayListPassenger LinkedList* lista de pasajeros
  * \return int 0 si esta ok y -1 si hay problema
  *
  */
-int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger);
+int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger, LinkedList* pArrayManualPassenger);
 /** \brief Listar pasajeros
  * \param pArrayListPassenger LinkedList* lista de pasajeros
  * \return int 0 si esta ok y -1 si hay problema
  *
  */
-int controller_ListPassenger(LinkedList* pArrayListPassenger);
+int controller_ListPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger);
 /** \brief Ordenar pasajeros por apellido y si son iguales por nombre
  * \param pArrayListPassenger LinkedList* lista de pasajeros
  * \return retorna 0 si esta ok y -1 si hay problema
  */
-int controller_sortPassenger(LinkedList* pArrayListPassenger);
+int controller_sortPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger);
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
  *
  * \param path char* ubicacion del archivo

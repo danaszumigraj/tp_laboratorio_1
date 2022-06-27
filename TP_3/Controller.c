@@ -170,7 +170,7 @@ int controller_addPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayM
 	return retorno;
 }
 
-int controller_editPassenger(LinkedList* pArrayListPassenger)
+int controller_editPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger)
 {
 	Passenger* unPasajero;
 
@@ -189,7 +189,7 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 	int idABuscar;
 	int i;
 
-	if(pArrayListPassenger!=NULL)
+	if(ll_isEmpty(pArrayListPassenger)==0)
 	{
 		utn_getNumber(&idABuscar, "\nIngrese el ID del pasajero\n", "\nEl dato ingresado no es valido", 1, Passenger_newId(pArrayListPassenger));
 		i = Passenger_get(pArrayListPassenger, idABuscar);
@@ -201,133 +201,147 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 		else
 		{
 			unPasajero = ll_get(pArrayListPassenger, i);
-
-			while(opcionMenuModificar!=7)
-			{
-				Passenger_printOnePassenger(unPasajero);
-				opcionMenuModificar = menuModificar(opcionMenuModificar);
-				switch(opcionMenuModificar)
-				{
-				case 1:
-					if(utn_getName(nombre, "\nIngrese el nombre del pasajero", "\nEl nombre ingresado no es valido")==0)
-					{
-						if(Passenger_setNombre(unPasajero, nombre)==0)
-						{
-						printf("\nEl nombre fue modificado con exito\n");
-						}
-						else
-						{
-							printf("\nHubo un error al intentar modificar el nombre\n");
-						}
-					}
-				break;
-				case 2:
-					if(utn_getName(apellido, "\nIngrese el apellido del pasajero", "\nEl apellido ingresado no es valido")==0)
-					{
-						if(Passenger_setApellido(unPasajero,apellido)==0)
-						{
-							printf("\nEl apellido fue modificado con exito\n");
-						}
-						else
-						{
-							printf("\nHubo un error al intentar modificar el apellido\n");
-						}
-					}
-				break;
-				case 3:
-					if(utn_getNumber(&precio, "\nIngrese el precio", "\nEl dato ingresado no es valido", 10000, 999999)==0)
-					{
-						if(Passenger_setPrecio(unPasajero, precio)==0)
-						{
-							printf("\nEl precio fue modificado con exito\n");
-						}
-						else
-						{
-							printf("\nHubo un error al intentar modificar el precio\n");
-						}
-					}
-				break;
-				case 4:
-					if(getString(codigoVuelo, TAM_DATO, "\nIngrese el codigo de vuelo", "\nEl dato ingresado no es valido")==0)
-					{
-						utn_caracteresAMayus(codigoVuelo);
-						if(Passenger_setCodigoVuelo(unPasajero, codigoVuelo)==0)
-						{
-						printf("\nEl codigo de vuelo fue modificado con exito\n");
-						}
-						else
-						{
-							printf("\nHubo un error al intentar modificar el codigo de vuelo\n");
-						}
-					}
-				break;
-				case 5:
-					if(utn_getNumber(&tipoPasajero, "\nIngrese el tipo de pasajero (1- EconomyClass 2- FirstClass 3- ExecutiveClass)", "\nEl dato ingresado no es valido", 1, 3)==0)
-					{
-						switch(tipoPasajero)
-						{
-						case 1:
-							strcpy(tipoPasajeroStr, "EconomyClass");
-						break;
-						case 2:
-							strcpy(tipoPasajeroStr, "FirstClass");
-						break;
-						case 3:
-							strcpy(tipoPasajeroStr, "ExecutiveClass");
-						break;
-						}
-						if(Passenger_setTipoPasajero(unPasajero, tipoPasajeroStr)==0)
-						{
-							printf("\nEl tipo de pasajero fue modificado con exito\n");
-						}
-						else
-						{
-							printf("\nHubo un error al intentar modificar el tipo de pasajero\n");
-						}
-					}
-				break;
-				case 6:
-					if(utn_getNumber(&estadoVuelo, "\nIngrese el estado del vuelo (1- En Vuelo 2- Demorado 3- En Horario 4- Aterrizado)", "\nEl estado de vuelo ingresado no es valido",  1, 4)==0)
-					{
-						switch(estadoVuelo)
-						{
-						case 1:
-							strcpy(estadoVueloStr, "En Vuelo");
-						break;
-						case 2:
-							strcpy(estadoVueloStr, "Demorado");
-						break;
-						case 3:
-							strcpy(estadoVueloStr, "En Horario");
-						break;
-						case 4:
-							strcpy(estadoVueloStr, "Aterrizado");
-						break;
-						}
-						if(Passenger_setEstadoVuelo(unPasajero, estadoVueloStr)==0)
-						{
-							printf("\nEl estado de vuelo fue modificado con exito\n");
-						}
-						else
-						{
-							printf("\nHubo un error al intentar modificar el estado de vuelo\n");
-						}
-					}
-				break;
-				case 7:
-					printf("\nVolviendo al menu principal...\n");
-				break;
-				default:
-					printf("\nOpcion no valida\n");
-				break;
-
-				}
-			}
 		}
 	}
+	else
+	{
+		utn_getNumber(&idABuscar, "\nIngrese el ID del pasajero\n", "\nEl dato ingresado no es valido", 1, Passenger_newId(pArrayManualPassenger));
+		i = Passenger_get(pArrayManualPassenger, idABuscar);
+		if(i == -1)
+		{
+			printf("\nEl ID no coincide con ningun pasajero");
+			retorno = -1;
+		}
+		else
+		{
+			unPasajero = ll_get(pArrayManualPassenger, i);
+		}
+	}
+
+		while(opcionMenuModificar!=7)
+		{
+			Passenger_printOnePassenger(unPasajero);
+			opcionMenuModificar = menuModificar(opcionMenuModificar);
+			switch(opcionMenuModificar)
+			{
+			case 1:
+				if(utn_getName(nombre, "\nIngrese el nombre del pasajero", "\nEl nombre ingresado no es valido")==0)
+				{
+					if(Passenger_setNombre(unPasajero, nombre)==0)
+					{
+					printf("\nEl nombre fue modificado con exito\n");
+					}
+					else
+					{
+						printf("\nHubo un error al intentar modificar el nombre\n");
+					}
+				}
+			break;
+			case 2:
+				if(utn_getName(apellido, "\nIngrese el apellido del pasajero", "\nEl apellido ingresado no es valido")==0)
+				{
+					if(Passenger_setApellido(unPasajero,apellido)==0)
+					{
+						printf("\nEl apellido fue modificado con exito\n");
+					}
+					else
+					{
+						printf("\nHubo un error al intentar modificar el apellido\n");
+					}
+				}
+			break;
+			case 3:
+				if(utn_getNumber(&precio, "\nIngrese el precio", "\nEl dato ingresado no es valido", 10000, 999999)==0)
+				{
+					if(Passenger_setPrecio(unPasajero, precio)==0)
+					{
+						printf("\nEl precio fue modificado con exito\n");
+					}
+					else
+					{
+						printf("\nHubo un error al intentar modificar el precio\n");
+					}
+				}
+			break;
+			case 4:
+				if(getString(codigoVuelo, TAM_DATO, "\nIngrese el codigo de vuelo", "\nEl dato ingresado no es valido")==0)
+				{
+					utn_caracteresAMayus(codigoVuelo);
+					if(Passenger_setCodigoVuelo(unPasajero, codigoVuelo)==0)
+					{
+					printf("\nEl codigo de vuelo fue modificado con exito\n");
+					}
+					else
+					{
+						printf("\nHubo un error al intentar modificar el codigo de vuelo\n");
+					}
+				}
+			break;
+			case 5:
+				if(utn_getNumber(&tipoPasajero, "\nIngrese el tipo de pasajero (1- EconomyClass 2- FirstClass 3- ExecutiveClass)", "\nEl dato ingresado no es valido", 1, 3)==0)
+				{
+					switch(tipoPasajero)
+					{
+					case 1:
+						strcpy(tipoPasajeroStr, "EconomyClass");
+					break;
+					case 2:
+						strcpy(tipoPasajeroStr, "FirstClass");
+					break;
+					case 3:
+						strcpy(tipoPasajeroStr, "ExecutiveClass");
+					break;
+					}
+					if(Passenger_setTipoPasajero(unPasajero, tipoPasajeroStr)==0)
+					{
+						printf("\nEl tipo de pasajero fue modificado con exito\n");
+					}
+					else
+					{
+						printf("\nHubo un error al intentar modificar el tipo de pasajero\n");
+					}
+				}
+			break;
+			case 6:
+				if(utn_getNumber(&estadoVuelo, "\nIngrese el estado del vuelo (1- En Vuelo 2- Demorado 3- En Horario 4- Aterrizado)", "\nEl estado de vuelo ingresado no es valido",  1, 4)==0)
+				{
+					switch(estadoVuelo)
+					{
+					case 1:
+						strcpy(estadoVueloStr, "En Vuelo");
+					break;
+					case 2:
+						strcpy(estadoVueloStr, "Demorado");
+					break;
+					case 3:
+						strcpy(estadoVueloStr, "En Horario");
+					break;
+					case 4:
+						strcpy(estadoVueloStr, "Aterrizado");
+					break;
+					}
+					if(Passenger_setEstadoVuelo(unPasajero, estadoVueloStr)==0)
+					{
+						printf("\nEl estado de vuelo fue modificado con exito\n");
+					}
+					else
+					{
+						printf("\nHubo un error al intentar modificar el estado de vuelo\n");
+					}
+				}
+			break;
+			case 7:
+				printf("\nVolviendo al menu principal...\n");
+			break;
+			default:
+				printf("\nOpcion no valida\n");
+			break;
+
+			}
+		}
 	return retorno;
 }
-int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger)
+int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayRemovedPassenger, LinkedList* pArrayManualPassenger)
 {
 	Passenger* unPasajero;
 
@@ -336,7 +350,7 @@ int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArr
 	int idABuscar;
 	int i;
 
-		if(pArrayListPassenger!=NULL)
+		if(ll_isEmpty(pArrayListPassenger)==0)
 		{
 			utn_getNumber(&idABuscar, "\nIngrese el ID del pasajero\n", "\nEl dato ingresado no es valido", 1, Passenger_newId(pArrayListPassenger));
 			i = Passenger_get(pArrayListPassenger, idABuscar);
@@ -380,31 +394,86 @@ int controller_removePassenger(LinkedList* pArrayListPassenger, LinkedList* pArr
 				}
 			}
 		}
+		else
+		{
+			utn_getNumber(&idABuscar, "\nIngrese el ID del pasajero\n", "\nEl dato ingresado no es valido", 1, Passenger_newId(pArrayManualPassenger));
+			i = Passenger_get(pArrayManualPassenger, idABuscar);
+			if(i == -1)
+			{
+				printf("\nEl ID no coincide con ningun pasajero");
+			}
+			else
+			{
+				unPasajero = ll_get(pArrayManualPassenger, i);
+				Passenger_printOnePassenger(unPasajero);
 
+				printf("\nEsta seguro de que quiere borrar a este pasajero? Ingrese s/n");
+				fflush(stdin);
+				scanf("%c", &respuesta);
+				respuesta = toupper(respuesta);
+				while(respuesta!='S' && respuesta!='N')
+				{
+					printf("\nError, por favor ingrese s/n");
+					fflush(stdin);
+					scanf("%c", &respuesta);
+					respuesta = toupper(respuesta);
+				}
+
+				if(respuesta == 'S')
+				{
+					unPasajero = ll_pop(pArrayManualPassenger, i);
+					if(unPasajero!=NULL)
+					{
+						if(ll_add(pArrayRemovedPassenger, unPasajero)==0)
+						{
+							printf("\nEl pasajero fue eliminado con exito\n");
+							retorno = 0;
+						}
+					}
+
+				}
+				else
+				{
+					printf("\nVolviendo al menu principal\n");
+				}
+			}
+		}
 	return retorno;
 }
-int controller_ListPassenger(LinkedList* pArrayListPassenger)
+int controller_ListPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger)
 {
 	int retorno = -1;
 	Passenger* unPasajero;
 
 	printf("||===================================================================================================================||\n");
-	for(int i = 0; i < ll_len(pArrayListPassenger); i++)
+	if(ll_isEmpty(pArrayListPassenger)==0)
 	{
-		unPasajero = (Passenger*) ll_get(pArrayListPassenger,i);
-		Passenger_printOnePassenger(unPasajero);
-		retorno = 0;
+		for(int i = 0; i < ll_len(pArrayListPassenger); i++)
+		{
+			unPasajero = (Passenger*) ll_get(pArrayListPassenger,i);
+			Passenger_printOnePassenger(unPasajero);
+			retorno = 0;
+		}
+	}
+	else
+	{
+		for(int i = 0; i < ll_len(pArrayManualPassenger); i++)
+		{
+			unPasajero = (Passenger*) ll_get(pArrayManualPassenger,i);
+			Passenger_printOnePassenger(unPasajero);
+			retorno = 0;
+		}
 	}
 	printf("||===================================================================================================================||\n");
 
 	return retorno;
 }
-int controller_sortPassenger(LinkedList* pArrayListPassenger)
+int controller_sortPassenger(LinkedList* pArrayListPassenger, LinkedList* pArrayManualPassenger)
 {
 	int retorno = -1;
 	int orden;
 
-	if(pArrayListPassenger!=NULL)
+	if(ll_isEmpty(pArrayListPassenger)==0)
 	{
 		if(utn_getNumber(&orden, "\nOrdenar por apellido y nombre de forma: 1-ASCENDENTE 0-DESCENDENTE\n", "\nEl orden ingresado no es valido\n", 0, 1)==0)
 		{
@@ -413,6 +482,15 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
 			retorno = 0;
 		}
 
+	}
+	else
+	{
+		if(utn_getNumber(&orden, "\nOrdenar por apellido y nombre de forma: 1-ASCENDENTE 0-DESCENDENTE\n", "\nEl orden ingresado no es valido\n", 0, 1)==0)
+		{
+			printf("\nAguarde un segundo por favor...\n");
+			ll_sort(pArrayManualPassenger, Passenger_sortByApellido, orden);
+			retorno = 0;
+		}
 	}
 	return retorno;
 }
