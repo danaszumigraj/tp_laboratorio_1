@@ -12,8 +12,9 @@
  * @brief Obtiene un string
  * @param arrayRecibido El string a obtener
  * @param textoAMostrar Texto que indica al usuario lo que debe ingresar
+ * @param mensajeError
  */
-void getString(char arrayRecibido[], char textoAMostrar []);
+void getString(char arrayRecibido[], char textoAMostrar [], char mensajeError[]);
 /**
  * @brief pide al usuario un dato a traves de string y cambia el ultimo bit de '\n' a '\0'
  * @param cadena cadena a obtener

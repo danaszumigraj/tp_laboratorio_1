@@ -107,7 +107,7 @@ int modifyPassenger(Passenger* list, int len, int id, char name[],char lastName[
 				}
 			break;
 			case 3:
-				getString(flycode, "\nIngrese el codigo de vuelo\n");
+				getString(flycode, "\nIngrese el codigo de vuelo", "\nEl codigo de vuelo no es valido");
 				utn_caracteresAMayus(flycode);
 				strcpy(list[i].flycode, flycode);
 				printf("\nEl codigo de vuelo fue modificado correctamente\n");

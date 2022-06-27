@@ -13,10 +13,26 @@
 #include "inputs.h"
 
 //OBTENER ARRAY, TIENE VALIDACION DE CARACTER
-void getString(char arrayRecibido[], char textoAMostrar [])
+void getString(char arrayRecibido[], char textoAMostrar [], char mensajeError[])
 {
-	printf(textoAMostrar);
-	gets(arrayRecibido);
+	int retorno = 1;
+
+	while(retorno != 0)
+	{
+		printf(textoAMostrar);
+		fflush(stdin);
+		gets(arrayRecibido);
+		for (int i = 0; i < strlen(arrayRecibido); i++)
+		{
+			if(isalpha(arrayRecibido[i]) == 0 &&  esNumerica(arrayRecibido))
+			{
+				retorno = 1;
+				printf(mensajeError);
+				break;
+			}
+			retorno = 0;
+		}
+	}
 	fflush(stdin);
 }
 int myGets(char *cadena, int longitud)

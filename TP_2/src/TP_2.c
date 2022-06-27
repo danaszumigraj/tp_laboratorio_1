@@ -78,7 +78,7 @@ int main(void) {
 		{
 			if(utn_getName(lastname, "\nIngrese el apellido del pasajero", "\nEl apellido ingresado no es valido")==0)
 			{
-				getString(flyCode, "\nIngrese el codigo de vuelo");
+				getString(flyCode, "\nIngrese el codigo de vuelo", "\nEl codigo de vuelo no es valido");
 				utn_caracteresAMayus(flyCode);
 				if(utn_getFloat(&price, "\nIngrese el precio del vuelo", "\nEl precio ingresado no es valido", 1000, 9999999)==0)
 				{
@@ -89,7 +89,7 @@ int main(void) {
 							if(addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode) == 0)
 								{
 									printf("\nEl pasajero fue ingresado correctamente");
-									flagPasajeros = 1;
+									flagPasajeros = flagPasajeros + 1;
 								}
 							else
 							{
@@ -104,24 +104,34 @@ int main(void) {
 	break;
 	//MODIFICAR PASAJEROS
 	case 2:
-		if (flagPasajeros == 0)
+		if (flagPasajeros != 0)
 		{
 			printf("\nDebe ingresar algun pasajero primero");
+			modifyPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
 		}
 		else
 		{
-			modifyPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+			printf("\nDebe ingresar algun pasajero primero");
 		}
 	break;
 	//ELIMINAR PASAJERO
 	case 3:
-		if (flagPasajeros == 0)
+		if (flagPasajeros != 0)
 		{
+			removePassenger(pasajeros, MAXPASAJEROS, idAux);
+			if(flagPasajeros==1)
+			{
+				flagPasajeros = 0;
+			}
+			else
+			{
+				flagPasajeros--;
+			}
 			printf("\nDebe ingresar algun pasajero primero");
 		}
 		else
 		{
-			removePassenger(pasajeros, MAXPASAJEROS, idAux);
+			printf("\nDebe ingresar algun pasajero primero");
 		}
 	break;
 
@@ -129,51 +139,65 @@ int main(void) {
 
 	//ORDENAMIENTO DE PASAJEROS
 	case 4:
-					if(flagPasajeros == 1)
+		if(flagPasajeros !=0)
+		{
+			opcionMostrar = menuInformar(opcionMostrar);
+			switch(opcionMostrar)
+			{
+			case 1:
+				if(flagPasajeros > 1)
+				{
+					if(utn_getNumber(&orden, "\n1-Ordenar de manera ascendente. \n0-Ordenar de manera descendente.", "\nEl dato ingresado no es valido", 0, 1)==0)
 					{
-						opcionMostrar = menuInformar(opcionMostrar);
-						switch(opcionMostrar)
+						if(sortPassengers(pasajeros, MAXPASAJEROS, orden)!=-1)
 						{
-						case 1:
-							if(utn_getNumber(&orden, "\n1-Ordenar de manera ascendente. \n2-Ordenar de manera descendente.", "\nEl dato ingresado no es valido", 1, 2)==0)
-							{
-								if(sortPassengers(pasajeros, MAXPASAJEROS, orden)==0)
-								{
-									printPassenger(pasajeros, MAXPASAJEROS);
-								}
-								else
-								{
-									printf("\nError, intente nuevamente");
-								}
-							}
-						break;
-						case 2:
-							totalPasajes =  calcularTotal(pasajeros, MAXPASAJEROS);
-							promedioPasajes = calcularPromedio(pasajeros, MAXPASAJEROS, totalPasajes);
-							contadorPromedio = contadorSuperaPromedio(pasajeros, MAXPASAJEROS, promedioPasajes);
-							printf("\nTotal de los pasajes: %2.f"
-									"\nPromedio de los pasajes: %2.f"
-									"\nPasajeros que superan el promedio: %d \n", totalPasajes, promedioPasajes, contadorPromedio);
-						break;
-						case 3:
-							if(utn_getNumber(&orden, "\n1-Ordenar de manera ascendente. \n2-Ordenar de manera descendente.", "\nEl dato ingresado no es valido", 1, 2)==0)
-							{
-								if(sortPassengersByCode(pasajeros, MAXPASAJEROS, orden)==0)
-								{
-									printPassenger(pasajeros, MAXPASAJEROS);
-								}
-								else
-								{
-									printf("\nError, intente nuevamente");
-								}
-							}
-						break;
+							printPassenger(pasajeros, MAXPASAJEROS);
+						}
+						else
+						{
+							printf("\nError, intente nuevamente");
 						}
 					}
-					else
+				}
+				else
+				{
+					printPassenger(pasajeros, MAXPASAJEROS);
+				}
+			break;
+			case 2:
+				totalPasajes =  calcularTotal(pasajeros, MAXPASAJEROS);
+				promedioPasajes = calcularPromedio(pasajeros, MAXPASAJEROS, totalPasajes);
+				contadorPromedio = contadorSuperaPromedio(pasajeros, MAXPASAJEROS, promedioPasajes);
+				printf("\nTotal de los pasajes: %2.f"
+						"\nPromedio de los pasajes: %2.f"
+						"\nPasajeros que superan el promedio: %d \n", totalPasajes, promedioPasajes, contadorPromedio);
+			break;
+			case 3:
+				if(flagPasajeros > 1)
+				{
+					if(utn_getNumber(&orden, "\n1-Ordenar de manera ascendente. \n0-Ordenar de manera descendente.", "\nEl dato ingresado no es valido", 0, 1)==0)
 					{
-						printf("\nDebe ingresar algun pasajero primero");
+						if(sortPassengersByCode(pasajeros, MAXPASAJEROS, orden)!=-1)
+						{
+							printPassenger(pasajeros, MAXPASAJEROS);
+						}
+						else
+						{
+							printf("\nError, intente nuevamente");
+						}
 					}
+				}
+				else
+				{
+					printPassenger(pasajeros, MAXPASAJEROS);
+				}
+			break;
+			}
+		}
+		else
+		{
+			printf("\nDebe ingresar algun pasajero primero");
+		}
 	break;
 
 	case 5:
@@ -212,8 +236,8 @@ int main(void) {
 		statusFlight = 1;
 		strcpy(flyCode, "MNE-601");
 		addPassenger(pasajeros, MAXPASAJEROS, idAux, name, lastname, price, typePassenger, statusFlight, flyCode);
+		flagPasajeros = flagPasajeros + 4;
 
-		flagPasajeros = 1;
 	break;
 
 	case 6:
